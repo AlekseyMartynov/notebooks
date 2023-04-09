@@ -156,6 +156,7 @@ namespace Blog {
             ?? nodeEnumerator
                 .Where(n => n.Name == "img")
                 .Select(n => n.GetAttributeValue("src", null))
+                .Where(i => !i.StartsWith("data:"))
                 .FirstOrDefault();
         }
 
