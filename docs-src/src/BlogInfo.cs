@@ -5,7 +5,8 @@ namespace Blog {
 
     public static class BlogInfo {
         public const string
-            AbsoluteUrl = "https://blog.amartynov.ru",
+            PathPrefix = "/notebooks",
+            AbsoluteUrl = "https://blog.amartynov.ru" + PathPrefix,
             RssFileName = "rss.xml",
             RssAbsoluteUrl = AbsoluteUrl + "/" + RssFileName,
             LegacyIDRedirectScriptFileName = "legacy-id-redirect.js",

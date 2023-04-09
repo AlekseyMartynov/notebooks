@@ -26,26 +26,25 @@ namespace Blog {
             var entries = _blogData.GetEntries();
 
             foreach(var p in entries.AllPaths) {
-                Download(
-                    _blogData.GetPathObj(p).Url,
-                    Path.Combine(_blogData.GetPathObj(p).SlugText, INDEX_HTML)
-                );
+                var url = _blogData.GetPathObj(p).Url;
+                Download(url, url + INDEX_HTML);
             }
 
             for(var i = 0; i < entries.PageCount; i++) {
-                Download(
-                    entries.GetPageUrl(i),
-                    Path.Combine(entries.GetPageUrl(i).TrimStart('/'), INDEX_HTML)
-                );
+                var url = entries.GetPageUrl(i);
+                Download(url, url + INDEX_HTML);
             }
 
-            Download(BlogInfo.LegacyIDRedirectScriptFileName);
-            Download(BlogInfo.RssFileName);
-            Download("404.html");
+            Download($"{BlogInfo.PathPrefix}/{BlogInfo.LegacyIDRedirectScriptFileName}");
+            Download($"{BlogInfo.PathPrefix}/{BlogInfo.RssFileName}");
+            Download($"{BlogInfo.PathPrefix}/404.html");
         }
 
         void Download(string url, string saveAs) {
-            saveAs = Path.Combine(_targetPath, saveAs);
+            if(!saveAs.StartsWith('/'))
+                throw new ArgumentException();
+
+            saveAs = _targetPath + saveAs;
             if(File.Exists(saveAs))
                 throw new InvalidOperationException();
 
@@ -57,7 +56,7 @@ namespace Blog {
         }
 
         void Download(string path) {
-            Download("/" + path, path);
+            Download(path, path);
         }
 
     }

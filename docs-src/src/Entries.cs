@@ -59,9 +59,9 @@ namespace Blog {
             if(pageIndex < 0)
                 return null;
             if(pageIndex == 0)
-                return "/";
+                return $"{BlogInfo.PathPrefix}/";
             if(pageIndex < PageCount)
-                return $"/page/{1 + pageIndex}/";
+                return $"{BlogInfo.PathPrefix}/page/{1 + pageIndex}/";
             return null;
         }
 

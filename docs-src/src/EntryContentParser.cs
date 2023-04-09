@@ -91,6 +91,7 @@ namespace Blog {
             Texturize(node);
             SetImageDimensions(node);
             SetNoHighlight(node);
+            PatchRootedUrls(node);
             return node;
         }
 
@@ -203,6 +204,20 @@ namespace Blog {
                 HLJS = nodeEnumerator.Any(n => IsPreCode(n) && HasLanguageClass(n)),
                 MEJS = nodeEnumerator.Any(n => n.Name == "audio")
             };
+        }
+
+        static void PatchRootedUrls(HtmlNode root) {
+            PatchRootedUrls(root, "a", "href");
+            PatchRootedUrls(root, "img", "src");
+            PatchRootedUrls(root, "audio", "src");
+        }
+
+        static void PatchRootedUrls(HtmlNode root, string tagName, string attrName) {
+            foreach(var i in root.Descendants(tagName)) {
+                var url = i.GetAttributeValue(attrName, "");
+                if(url.StartsWith('/') && !url.StartsWith(BlogInfo.PathPrefix))
+                    i.SetAttributeValue(attrName, BlogInfo.PathPrefix + url);
+            }
         }
     }
 

@@ -20,7 +20,7 @@
 @foreach(var href in layoutData.Libs.CssUrls) {
     <link rel="stylesheet" href="@href">
 }
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="@(BlogInfo.PathPrefix)/style.css">
 @if(!String.IsNullOrEmpty(layoutData.OpenGraphDescription)) {
     <meta property="og:description" content="@layoutData.OpenGraphDescription">
 }
@@ -35,7 +35,7 @@
     <meta name="robots" content="@layoutData.RobotsTag">
 }
     <script>
-        /p=\d/.test(location.search) && document.write("<script src=/@BlogInfo.LegacyIDRedirectScriptFileName><\/script>");
+        /p=\d/.test(location.search) && document.write("<script src=@BlogInfo.PathPrefix/@BlogInfo.LegacyIDRedirectScriptFileName><\/script>");
     </script>
 @if(Utils.RenderTrackers) {
     @Html.Raw(System.IO.File.ReadAllText("trackers.txt"))
@@ -47,7 +47,7 @@
     <div id="page">
         <div id="header">
             <div id="headerimage">
-                <h1><a href="/">@BlogInfo.Title</a></h1>
+                <h1><a href="@BlogInfo.PathPrefix/">@BlogInfo.Title</a></h1>
                 <div class="description">@BlogInfo.Description</div>
             </div>
         </div>

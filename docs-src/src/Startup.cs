@@ -28,6 +28,11 @@ namespace Blog {
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
             app.UseDeveloperExceptionPage();
+            app.Map(BlogInfo.PathPrefix, ConfigureNotebooks);
+        }
+
+        static void ConfigureNotebooks(IApplicationBuilder app) {
+            app.UsePathBase(BlogInfo.PathPrefix);
             app.UseStaticFiles(new StaticFileOptions {
                 OnPrepareResponse = r => r.Context.Response.Headers["Cache-Control"] = "no-store,no-cache"
             });

@@ -54,7 +54,7 @@ namespace Blog {
                             var content = blogData.GetContent(p);
 
                             // https://stackoverflow.com/q/3155801
-                            var escapedUrl = new Uri(BlogInfo.AbsoluteUrl + pathObj.Url).AbsoluteUri;
+                            var escapedUrl = Utils.MakeUrlAbsolute(pathObj.Url);
 
                             var html = PrepareEntryHtml(content.BodyBeforeCut);
                             if(content.HasCut) {

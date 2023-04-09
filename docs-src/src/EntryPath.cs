@@ -32,7 +32,7 @@ namespace Blog {
         }
 
         public string Url {
-            get { return "/" + SlugText + "/"; }
+            get { return $"{BlogInfo.PathPrefix}/{SlugText}/"; }
         }
     }
 
