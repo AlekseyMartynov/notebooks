@@ -30,16 +30,22 @@ namespace Blog {
         }
 
         static void InitPaths(out string[] posts, out string[] articles) {
-            posts = articles = Array.Empty<string>();
+            var postList = new List<string>();
+
+            postList.AddRange(Directory.EnumerateFiles("../notebooks", "*.ipynb", SearchOption.TopDirectoryOnly));
 
             if(Directory.Exists("posts")) {
-                posts = Directory.EnumerateFiles("posts", "*.md", SearchOption.AllDirectories)
-                    .OrderByDescending(i => i)
-                    .ToArray();
+                postList.AddRange(Directory.EnumerateFiles("posts", "*.md", SearchOption.AllDirectories));
             }
+
+            posts = postList
+                .OrderByDescending(Path.GetFileName)
+                .ToArray();
 
             if(Directory.Exists("articles")) {
                 articles = Directory.GetFiles("articles", "*.md", SearchOption.AllDirectories);
+            } else {
+                articles = Array.Empty<string>();
             }
         }
 

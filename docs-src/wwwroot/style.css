@@ -89,6 +89,16 @@ pre code
     color: #333;
 }
 
+.jupyter-outputs pre
+{
+    border: 0;
+}
+
+.jupyter-outputs pre code
+{
+    padding-top: 0;
+}
+
 .hasfloats:after
 {
     content: "";

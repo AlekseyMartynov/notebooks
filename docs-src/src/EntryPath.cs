@@ -13,18 +13,13 @@ namespace Blog {
         public EntryPath(string path) {
             Console.WriteLine($"{nameof(EntryPath)}({path})");
 
-            var match = Regex.Match(Path.GetFileName(path), @"^(\d{8})\.(?:(\d{2,4})\.)?(.+?)\.md$");
-            if(!match.Success)
+            var parsed = TryParseJupyterPath(path, out Date, out SlugText);
+
+            if(!parsed)
+                parsed = TryParseMarkdownPath(path, out Date, out LegacyID, out SlugText);
+
+            if(!parsed)
                 throw new Exception();
-
-            var dateString = match.Groups[1].Value;
-            if(!dateString.StartsWith("0"))
-                Date = DateTime.ParseExact(dateString, "yyyyMMdd", null);
-
-            SlugText = match.Groups[3].Value;
-
-            if(match.Groups[2].Length > 0)
-                LegacyID = Convert.ToInt32(match.Groups[2].Value);
         }
 
         public string DateText {
@@ -33,6 +28,46 @@ namespace Blog {
 
         public string Url {
             get { return $"{BlogInfo.PathPrefix}/{SlugText}/"; }
+        }
+
+        static bool TryParseMarkdownPath(string path, out DateTime date, out int legacyID, out string slugText) {
+            var match = Regex.Match(Path.GetFileName(path), @"^(\d{8})\.(?:(\d{2,4})\.)?(.+?)\.md$");
+            if(match.Success) {
+                date = ParseDate(match.Groups[1].Value);
+                legacyID = ParseLegacyID(match.Groups[2].Value);
+                slugText = match.Groups[3].Value;
+                return true;
+            } else {
+                date = default;
+                legacyID = default;
+                slugText = default;
+                return false;
+            }
+        }
+
+        static bool TryParseJupyterPath(string path, out DateTime date, out string slugText) {
+            var match = Regex.Match(Path.GetFileName(path), @"^(\d{8})-(.+?)\.ipynb$");
+            if(match.Success) {
+                date = ParseDate(match.Groups[1].Value);
+                slugText = match.Groups[2].Value;
+                return true;
+            } else {
+                date = default;
+                slugText = default;
+                return false;
+            }
+        }
+
+        static DateTime ParseDate(string text) {
+            if(!text.StartsWith("0"))
+                return DateTime.ParseExact(text, "yyyyMMdd", null);
+            return default;
+        }
+
+        static int ParseLegacyID(string text) {
+            if(!String.IsNullOrEmpty(text))
+                return Convert.ToInt32(text);
+            return default;
         }
     }
 

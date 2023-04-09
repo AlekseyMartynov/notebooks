@@ -29,7 +29,7 @@ namespace Blog {
         public EntryContent Parse(string path) {
             Console.WriteLine($"{nameof(EntryContentParser)}.{nameof(Parse)}({path})");
 
-            var md = Utils.DosToUnix(File.ReadAllText(path));
+            var md = ReadMarkdown(path);
             CheckWhitespace(md);
 
             var slices = Slice(md);
@@ -52,6 +52,14 @@ namespace Blog {
                 Libs = DiscoverRequiredLibs(allHtmlDescendants),
                 LibsBeforeCut = DiscoverRequiredLibs(htmlBefore.Descendants())
             };
+        }
+
+        static string ReadMarkdown(string path) {
+            var text = File.ReadAllText(path);
+            text = Utils.DosToUnix(text);
+            if(path.EndsWith(".ipynb"))
+                text = JupyterToMarkdown.Convert(text);
+            return text;
         }
 
         static void CheckWhitespace(string md) {
