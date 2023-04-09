@@ -3,9 +3,17 @@
 
 <div class="post" style="min-height: 250px">
     <h2><a href="@Model.Url" rel="bookmark">@Model.Title</a></h2>
+    <div class="postmetadata">
 @if(Model.HasDate) {
-    <div class="postmetadata">@Model.Date</div>
+        @Model.Date
 }
+@if(Model.HasDate && Model.HasGitHubUrl) {
+        <text> &bull; </text>
+}
+@if(!String.IsNullOrEmpty(Model.GitHubUrl)) {
+        <a href="@Model.GitHubUrl" target="_blank">View on GitHub</a>
+}
+    </div>
     <div class="entry">@Html.Raw(Model.BodyHtml)</div>
 </div>
 

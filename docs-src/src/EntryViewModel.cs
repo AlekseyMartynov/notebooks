@@ -10,6 +10,9 @@ namespace Blog {
         public string Date;
         public string BodyHtml;
         public PrevNextViewModel PrevNext;
+        public string GitHubUrl;
+
+        public bool HasGitHubUrl => !String.IsNullOrEmpty(GitHubUrl);
     }
 
 }

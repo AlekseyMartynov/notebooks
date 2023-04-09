@@ -9,11 +9,13 @@ namespace Blog {
         public readonly DateTime Date;
         public readonly int LegacyID;
         public readonly string SlugText;
+        public bool IsJupyter;
 
         public EntryPath(string path) {
             Console.WriteLine($"{nameof(EntryPath)}({path})");
 
             var parsed = TryParseJupyterPath(path, out Date, out SlugText);
+            IsJupyter = parsed;
 
             if(!parsed)
                 parsed = TryParseMarkdownPath(path, out Date, out LegacyID, out SlugText);
@@ -28,6 +30,12 @@ namespace Blog {
 
         public string Url {
             get { return $"{BlogInfo.PathPrefix}/{SlugText}/"; }
+        }
+
+        public string GetJupyterSourceUrl() {
+            if(IsJupyter)
+                return $"https://github.com/AlekseyMartynov/notebooks/blob/-/notebooks/{Date:yyyyMMdd}-{SlugText}.ipynb";
+            return null;
         }
 
         static bool TryParseMarkdownPath(string path, out DateTime date, out int legacyID, out string slugText) {

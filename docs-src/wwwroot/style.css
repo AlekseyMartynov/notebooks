@@ -191,6 +191,16 @@ hr.plainscape
     margin-top: 5px;
 }
 
+.postmetadata a
+{
+    color: #888;
+}
+
+.postmetadata a:hover
+{
+    text-decoration: underline;
+}
+
 .entry
 {
     font-size: 132%;

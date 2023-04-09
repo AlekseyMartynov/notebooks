@@ -108,7 +108,8 @@ namespace Blog {
                 HasDate = entryPathObj.Date > DateTime.MinValue,
                 Title = entryContent.Title,
                 BodyHtml = body.ToString(),
-                PrevNext = prevNext
+                PrevNext = prevNext,
+                GitHubUrl = entryPathObj.GetJupyterSourceUrl(),
             };
 
             SetLayoutData(new LayoutData {
