@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule">
+  <channel>
+    <title>AM's Notebooks</title>
+    <link>https://alekseymartynov.github.io/notebooks</link>
+    <atom:link href="https://alekseymartynov.github.io/notebooks/rss.xml" rel="self" type="application/rss+xml" />
+    <description>Misc tech notes</description>
+    <creativeCommons:license>https://creativecommons.org/licenses/by/3.0/</creativeCommons:license>
+    <pubDate>7 Apr 2023 00:00:00 +0300</pubDate>
+    <image>
+      <title>AM's Notebooks</title>
+      <link>https://alekseymartynov.github.io/notebooks</link>
+      <url>https://github.com/AlekseyMartynov.png</url>
+    </image>
+    <item>
+      <guid isPermaLink="true">https://alekseymartynov.github.io/notebooks/pareto-front/</guid>
+      <link>https://alekseymartynov.github.io/notebooks/pareto-front/</link>
+      <pubDate>7 Apr 2023 00:00:00 +0300</pubDate>
+      <title>Pareto Front</title>
+      <description><![CDATA[<p>В повседневной жизни мы регулярно оказываемся в ситуациях, когда хочется и рыбку съесть, и косточкой не подавиться:</p>
+<ul>
+<li>Не прогадать по цене/качеству, переключаясь в маркетплейсе между “подешевле” и “много звёздочек”.</li>
+<li>Вложить деньги <del>в какую-нибудь пирамиду</del> с оптимальным соотношением риск/доходность.</li>
+</ul>
+<p>На языке науки это называется <a href="https://en.wikipedia.org/wiki/Multi-objective_optimization">multi-objective optimization</a> —  многофакторная/многокритериальная оптимизация.</p>
+<p><a href="https://alekseymartynov.github.io/notebooks/pareto-front/">Читать на сайте…</a></p>]]></description>
+    </item>
+  </channel>
+</rss>

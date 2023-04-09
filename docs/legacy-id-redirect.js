@@ -1,0 +1,1 @@
+function go(u){window.location.href=u};/p=(\d+)/.exec(window.location.search);switch(~~RegExp.$1){default:go('/');}
