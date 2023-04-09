@@ -13,6 +13,9 @@
 @if(!String.IsNullOrEmpty(Model.GitHubUrl)) {
         <a href="@Model.GitHubUrl" target="_blank">View on GitHub</a>
 }
+@if(Model.IsFossil) {
+        <text> &bull; blog.amartynov.ru archive</text>
+}
     </div>
     <div class="entry">@Html.Raw(Model.BodyHtml)</div>
 </div>

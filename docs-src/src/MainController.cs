@@ -110,6 +110,7 @@ namespace Blog {
                 BodyHtml = body.ToString(),
                 PrevNext = prevNext,
                 GitHubUrl = entryPathObj.GetJupyterSourceUrl(),
+                IsFossil = entryPathObj.Date.Year < 2018,
             };
 
             SetLayoutData(new LayoutData {
