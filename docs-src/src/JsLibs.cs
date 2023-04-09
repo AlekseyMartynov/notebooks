@@ -8,10 +8,9 @@ namespace Blog {
         const string CDNJS = "https://cdnjs.cloudflare.com/ajax/libs";
 
         const string
-            JQ_VER = "1.12.4",
-            FANCYBOX_VER = "3.2.5",
-            HLJS_VER = "9.12.0",
-            MEJS_VER = "4.2.7";
+            FANCYAPPS_VER = "5.0.15",
+            HLJS_VER = "11.7.0",
+            MEJS_VER = "4.2.17";
 
         public bool Fancybox;
         public bool HLJS;
@@ -25,10 +24,10 @@ namespace Blog {
 
         public IEnumerable<string> CssUrls {
             get {
-                yield return $"{CDNJS}/normalize/8.0.0/normalize.min.css";
+                yield return $"{CDNJS}/normalize/8.0.1/normalize.min.css";
 
                 if(Fancybox)
-                    yield return $"{CDNJS}/fancybox/{FANCYBOX_VER}/jquery.fancybox.min.css";
+                    yield return $"{CDNJS}/fancyapps-ui/{FANCYAPPS_VER}/fancybox/fancybox.min.css";
 
                 if(HLJS)
                     yield return $"{CDNJS}/highlight.js/{HLJS_VER}/styles/github.min.css";
@@ -40,10 +39,8 @@ namespace Blog {
 
         public IEnumerable<string> IncludeScriptUrls {
             get {
-                yield return $"{CDNJS}/jquery/{JQ_VER}/jquery.min.js";
-
                 if(Fancybox)
-                    yield return $"{CDNJS}/fancybox/{FANCYBOX_VER}/jquery.fancybox.min.js";
+                    yield return $"{CDNJS}/fancyapps-ui/{FANCYAPPS_VER}/fancybox/fancybox.umd.min.js";
 
                 if(HLJS) {
                     yield return $"{CDNJS}/highlight.js/{HLJS_VER}/highlight.min.js";
@@ -57,11 +54,14 @@ namespace Blog {
 
         public IEnumerable<string> InitScripts {
             get {
+                if(Fancybox)
+                    yield return "Fancybox.bind();";
+
                 if(HLJS)
-                    yield return "hljs.initHighlightingOnLoad();";
+                    yield return "hljs.highlightAll();";
 
                 if(MEJS)
-                    yield return "$('.entry audio').width('100%').mediaelementplayer();";
+                    yield return "document.querySelectorAll('.entry audio').forEach(function(i) { i.style.width = '100%'; new MediaElementPlayer(i); });";
             }
         }
     }
