@@ -122,6 +122,9 @@ namespace Blog {
 
                 if(node.Name == "img")
                     node.SetAttributeValue("border", "0");
+
+                if(node.Name == "code" && node.ParentNode.Name != "pre")
+                    node.Name = "em";
             }
 
             return docNode.InnerHtml;

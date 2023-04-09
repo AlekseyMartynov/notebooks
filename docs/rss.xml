@@ -34,7 +34,7 @@
 <blockquote>
 <p>Docker process model — where everything runs through a central daemon — is fundamentally flawed. To “fix” Docker would essentially mean a rewrite of the project…</p>
 </blockquote>
-<p>Но всё, что ни делается — к лучшему. Резонанс утих, а сообщество разработчиков договорилось о необходимости разрабатывать открытые стандарты и делать декомпозицию. Появился проект ​<a href="https://opencontainers.org">Open Container Initiative</a> (OCI) и разные интересные названия: <code>containerd</code>, <code>runC</code>, <code>runV</code>, <code>runZ</code>…</p>
+<p>Но всё, что ни делается — к лучшему. Резонанс утих, а сообщество разработчиков договорилось о необходимости разрабатывать открытые стандарты и делать декомпозицию. Появился проект ​<a href="https://opencontainers.org">Open Container Initiative</a> (OCI) и разные интересные названия: <em>containerd</em>, <em>runC</em>, <em>runV</em>, <em>runZ</em>…</p>
 <p><a href="https://alekseymartynov.github.io/notebooks/docker-containerd-runc-runv/">Читать на сайте…</a></p>]]></description>
     </item>
     <item>
@@ -42,10 +42,10 @@
       <link>https://alekseymartynov.github.io/notebooks/docker-userns-remap/</link>
       <pubDate>20 Mar 2016 00:00:00 +0300</pubDate>
       <title>Docker: user namespaces</title>
-      <description><![CDATA[<p>С самого начала пользователей Докера, обеспокоенных вопросами безопасности, волновал тот факт, что внутри контейнеров идентификаторы пользователей и групп начинаются с нуля. Иными словами, <code>root</code> в контейнере равносилен <code>root</code>-у во внешней системе. И даже <a href="https://redd.it/316znt">нашлись сценарии</a> (не самые тривиальные, конечно), в которых <code>root</code> выбирается наружу.</p>
+      <description><![CDATA[<p>С самого начала пользователей Докера, обеспокоенных вопросами безопасности, волновал тот факт, что внутри контейнеров идентификаторы пользователей и групп начинаются с нуля. Иными словами, <em>root</em> в контейнере равносилен <em>root</em>-у во внешней системе. И даже <a href="https://redd.it/316znt">нашлись сценарии</a> (не самые тривиальные, конечно), в которых <em>root</em> выбирается наружу.</p>
 <p>В Docker 1.10 добавили поддержку так называемых <a href="https://docs.docker.com/engine/security/userns-remap/">user namespaces</a>, которые призваны исправить эту ситуацию.</p>
 <h3>Нужно ли скорее бежать и включать их у себя?</h3>
-<p>Не спешите! Во всей этой истории предполагается, что зловредный пользователь контейнера хочет атаковать внешнюю систему. Такое возможно в сценариях хостинга и аренды. Если же вы используете Docker сами и на своих серверах, то, конечно же, не будете этого делать, а наоборот будете соблюдать правила безопасности внутри контейнеров. “Внутренний” <code>root</code> заслуживает такого же бережного обращения как и внешний.</p>
+<p>Не спешите! Во всей этой истории предполагается, что зловредный пользователь контейнера хочет атаковать внешнюю систему. Такое возможно в сценариях хостинга и аренды. Если же вы используете Docker сами и на своих серверах, то, конечно же, не будете этого делать, а наоборот будете соблюдать правила безопасности внутри контейнеров. “Внутренний” <em>root</em> заслуживает такого же бережного обращения как и внешний.</p>
 <p><a href="https://alekseymartynov.github.io/notebooks/docker-userns-remap/">Читать на сайте…</a></p>]]></description>
     </item>
     <item>
@@ -67,7 +67,7 @@
 <p>Чтобы никого не обидеть, теорему эту называют теоремой Котельникова — Найквиста — Уиттакера — Шеннона, или попросту теоремой отсчётов (the Sampling theorem). Она считается одним из важнейших результатов теории информации.</p>
 <p>Формулировка достаточно простая:</p>
 <blockquote>
-<p>Если аналоговый сигнал не содержит в своем спектре частот выше <code>Fmax</code>, то его можно идеально точно восстановить по дискретным отсчётам, взятым равномерно с частотой строго большей <code>2·Fmax</code>.</p>
+<p>Если аналоговый сигнал не содержит в своем спектре частот выше <em>Fmax</em>, то его можно идеально точно восстановить по дискретным отсчётам, взятым равномерно с частотой строго большей <em>2·Fmax</em>.</p>
 </blockquote>
 <p>Даже если вы не имеете никакого отношения к обработке сигналов, очень может быть, что вам знакома фраза “CD quality 44100 Hz”. Имеется в виду, что на компакт-дисках звук хранится в виде дискретных отсчётов, по 44100 штук на секунду. А это, согласно озвученной теореме, означает что “на CD можно идеально записать звук с частотой до 22050 Гц”, что вполне себе хорошо, так как слышимый человеком диапазон укладывается в эти рамки.</p>
 <p>Казалось бы, всё отлично, что тут ещё обсуждать. Но у меня возник ряд вопросов:</p>
@@ -128,7 +128,7 @@ header(&quot;Content-Type: text/plain; charset=utf8&quot;);
 $q = $pdo-&gt;query(&quot;select x from t1 where x like '[_РИ%Ñ%ŘÁ_]'&quot;);
 print $q-&gt;fetchColumn();
 </code></pre>
-<p>The main idea is to override the default implementation of the LIKE function by using the <code>PDO::sqliteCreateFunction</code> call. It’s what the official FAQ <a href="https://www.sqlite.org/faq.html#q18">suggests</a>.</p>
+<p>The main idea is to override the default implementation of the LIKE function by using the <em>PDO::sqliteCreateFunction</em> call. It’s what the official FAQ <a href="https://www.sqlite.org/faq.html#q18">suggests</a>.</p>
 <p>Advantages:</p>
 <ul>
 <li>it works</li>
@@ -137,7 +137,7 @@ print $q-&gt;fetchColumn();
 <p>Disadvantages:</p>
 <ul>
 <li>it’s obviously slower than the native implementation</li>
-<li>The <code>PDO::sqliteCreateFunction</code> method is currently <a href="https://php.net/manual/en/pdo.sqlitecreatefunction.php">marked experimental</a></li>
+<li>The <em>PDO::sqliteCreateFunction</em> method is currently <a href="https://php.net/manual/en/pdo.sqlitecreatefunction.php">marked experimental</a></li>
 </ul>
 <p>Anyway, I hope this post will help you.</p>
 ]]></description>
