@@ -39,7 +39,7 @@ namespace Blog {
                                 new XAttribute("rel", "self"),
                                 new XAttribute("type", "application/rss+xml")
                             ),
-                            new XElement("description", BlogInfo.SeoTitle),
+                            new XElement("description", BlogInfo.Description),
                             new XElement(ccNs + "license", BlogInfo.LicenseFullUrl),
                             new XElement("pubDate", FormatDate(feedDate)),
                             new XElement(

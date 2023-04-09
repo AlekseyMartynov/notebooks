@@ -25,7 +25,7 @@ namespace Blog {
 
                 case "build-static-site":
                     BlogDataCache.UseSingleton();
-                    Utils.RenderTrackers = true;
+                    //Utils.RenderTrackers = true;
 
                     using(var host = CreateWebHost())
                     using(var generator = new StaticGenerator(host.Services.GetService<BlogDataCache>(), "static-site")) {

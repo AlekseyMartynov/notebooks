@@ -55,7 +55,7 @@ namespace Blog {
                 }
             };
 
-            var layoutTitle = BlogInfo.SeoTitle;
+            var layoutTitle = BlogInfo.Title;
             if(pageIndex > 0)
                 layoutTitle += $" ― страница {1 + pageIndex} из {entries.PageCount}";
 
@@ -118,7 +118,7 @@ namespace Blog {
                 OpenGraphType = "article",
                 OpenGraphDescription = entryContent.Excerpt,
                 OpenGraphImageAbsoluteUrl = Utils.MakeUrlAbsolute(entryContent.MainImageUrl),
-                RenderDisqus = true,
+                //RenderDisqus = true,
                 Libs = entryContent.Libs,
                 RobotsTag = "noarchive"
             });
