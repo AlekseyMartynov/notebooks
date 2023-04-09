@@ -100,6 +100,7 @@ namespace Blog {
             SetImageDimensions(node);
             SetNoHighlight(node);
             PatchRootedUrls(node);
+            AddTargetBlank(node);
             return node;
         }
 
@@ -225,6 +226,15 @@ namespace Blog {
                 var url = i.GetAttributeValue(attrName, "");
                 if(url.StartsWith('/') && !url.StartsWith(BlogInfo.PathPrefix))
                     i.SetAttributeValue(attrName, BlogInfo.PathPrefix + url);
+            }
+        }
+
+        static void AddTargetBlank(HtmlNode root) {
+            foreach(var i in root.Descendants("a")) {
+                var href = i.GetAttributeValue("href", "");
+                var target = i.GetAttributeValue("target", "");
+                if(String.IsNullOrEmpty(target) && href.Contains(":"))
+                    i.SetAttributeValue("target", "_blank");
             }
         }
     }
