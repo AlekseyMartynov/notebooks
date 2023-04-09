@@ -17,8 +17,8 @@ namespace Blog {
             LicenseFullUrl = "https://creativecommons.org/licenses/by/3.0/",
             LicenseDeedUrl = LicenseFullUrl + "deed.ru";
 
-        public static string GetGravatarUrl(int size) {
-            return "https://www.gravatar.com/avatar/REDACTED?s=" + size;
+        public static string GetAvatarUrl() {
+            return "https://github.com/AlekseyMartynov.png";
         }
     }
 

@@ -46,7 +46,7 @@ namespace Blog {
                                 "image",
                                 new XElement("title", BlogInfo.Title),
                                 new XElement("link", BlogInfo.AbsoluteUrl),
-                                new XElement("url", BlogInfo.GetGravatarUrl(400))
+                                new XElement("url", BlogInfo.GetAvatarUrl())
                             )
                         }
                         .Concat(postPaths.Select(p => {
