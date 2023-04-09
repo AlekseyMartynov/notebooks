@@ -1,0 +1,14 @@
+@model Blog.EntryViewModel
+@{ Layout = "~/views/Layout.cshtml"; }
+
+<div class="post" style="min-height: 250px">
+    <h2><a href="@Model.Url" rel="bookmark">@Model.Title</a></h2>
+@if(Model.HasDate) {
+    <div class="postmetadata">@Model.Date</div>
+}
+    <div class="entry">@Html.Raw(Model.BodyHtml)</div>
+</div>
+
+<div id="disqus_thread"></div>
+
+@Html.Partial("~/views/PrevNext.cshtml", Model.PrevNext)

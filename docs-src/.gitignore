@@ -1,0 +1,6 @@
+.vs/
+bin/
+obj/
+static-site/
+*.user
+*.sln

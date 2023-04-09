@@ -1,0 +1,364 @@
+/* based on plainscape */
+
+html
+{
+    line-height: 1.367;
+}
+
+body
+{
+    font-size: 12px;
+    font-family: "Open Sans", sans-serif;
+    color: #393939;
+    text-align: center;
+}
+
+h1, h2
+{
+    font-weight: 300;
+}
+
+h3, h4
+{
+    font-weight: bold;
+}
+
+h1 { font-size: 390%; }
+h2 { font-size: 260%; }
+h3 { font-size: 130%; }
+h4 { font-size: 100%; }
+
+a,
+.removed_link
+{
+    color: #fb6d27;
+}
+
+a
+{
+    text-decoration: none;
+    outline: 0;
+}
+
+a:hover
+{
+    color: #3c81fb;
+}
+
+pre, code
+{
+    font-family: Consolas, monaco, Menlo, monospace;
+}
+
+pre,
+pre code
+{
+    font-size: 94%;
+    line-height: 130%;
+}
+
+code
+{
+    background: #f8f8f8;
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+pre
+{
+    border: solid 1px #e5e5e5;
+}
+
+pre code
+{
+    padding: 0.5em;
+    border-radius: 0;
+    display: block;
+    overflow-x: auto;
+    color: #333;
+}
+
+.hasfloats:after
+{
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Layout */
+
+#page
+{
+    text-align: left;
+    margin: 0 auto;
+    width: 960px;
+}
+
+#header
+{
+    margin: 0 20px;
+}
+
+hr.plainscape
+{
+    display: none;
+}
+
+#wrapper
+{
+    padding: 4px 20px 20px;
+}
+
+#content
+{
+    width: 660px;
+    float: left;
+}
+
+#sidebar
+{
+    width: 200px;
+    float: right;
+    padding: 20px 0;
+}
+
+#footer
+{
+    background: url('border_h.png') repeat-x left 16px;
+    padding: 20px;
+    font-size: 110%;
+    color: #888;
+    text-align: center;
+}
+
+/* Header */
+
+#header
+{
+    background: url('border_h.png') repeat-x bottom;
+}
+
+#headerimage
+{
+    padding: 15px 0 30px;
+}
+
+#header h1
+{
+    margin: 10px 0;
+}
+
+#header .description
+{
+    font-size: 120%;
+}
+
+/* Post */
+
+.post
+{
+    padding: 20px 0;
+}
+
+.post h2
+{
+    margin: 0;
+}
+
+.post hr
+{
+    border: solid 1px #ddd;
+}
+
+.postmetadata
+{
+    font-size: 110%;
+    color: #888;
+    margin-top: 5px;
+}
+
+.entry
+{
+    font-size: 132%;
+    line-height: 149%;
+    margin: 20px 0;
+}
+
+.entry blockquote
+{
+    border: 1px dotted #ccc;
+    font-size: 90%;
+    padding: 3px 20px;
+    margin: 10px 0;
+    background: #f8f8f8;
+}
+
+.entry table,
+.entry th,
+.entry td
+{
+    border: solid 1px #ccc;
+}
+
+.entry table
+{
+    font-size: 90%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.entry th,
+.entry td
+{
+    padding: 5px 10px;
+}
+
+.entry th
+{
+    background: #f4f4f4;
+    color: #666;
+    font-weight: bold;
+    text-align: center;
+}
+
+.entry ul,
+.entry ul ul,
+.entry ul ul ul
+{
+    list-style-type: disc;
+}
+
+.prevnext
+{
+    font-size: 120%;
+    margin-top: 20px;
+}
+
+.prevnext .prev
+{
+    float: left;
+    text-align: left;
+    padding-right: 0.7em;
+}
+
+.prevnext .next
+{
+    float: right;
+    text-align: right;
+    padding-left: 0.7em;
+}
+
+/* Sidebar */
+
+#sidebar
+{
+    font-size: 120%;
+}
+
+#sidebar h2
+{
+    font-size: 120%;
+    background: url('border_h.png') repeat-x bottom;
+}
+
+#sidebar ul
+{
+    padding: 0;
+}
+
+#sidebar ul li
+{
+    list-style-type: none;
+    margin-bottom: 20px;
+}
+
+#sidebar input
+{
+    border: solid 1px #a9a9a9;
+    padding: 2px;
+    width: 200px;
+    font-family: "Open Sans", sans-serif;
+    font-size: 90%;
+    line-height: inherit;
+    -webkit-appearance: none;
+}
+
+/* vuk styles */
+
+.vuk-info,
+.vuk-danger
+{
+    border: solid 1px;
+    padding: 0 1em;
+}
+
+.vuk-info a,
+.vuk-danger a
+{
+    text-decoration: underline;
+}
+
+.vuk-info,
+.vuk-info a
+{
+    color: #3688c0;
+}
+
+.vuk-danger,
+.vuk-danger a
+{
+    color: red;
+}
+
+.vuk-info
+{
+    border-color: #76bbe2;
+}
+
+.vuk-danger
+{
+    border-color: red;
+}
+
+/* https://www.google.com/webmasters/tools/mobile-friendly */
+
+@media (max-width: 720px) {
+
+    #page
+    {
+        width: 95%;
+    }
+
+    #header,
+    #wrapper
+    {
+        margin: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    h1 { font-size: 300%; }
+    h2 { font-size: 200%; }
+
+    img
+    {
+        max-width: 100%;
+        height: auto;
+    }
+
+    iframe
+    {
+        max-width: 100%;
+    }
+
+    #content
+    {
+        width: 100%;
+    }
+
+    #sidebar
+    {
+        display: none;
+    }
+
+}

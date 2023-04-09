@@ -1,0 +1,117 @@
+@using Blog
+@{
+    var layoutData = (LayoutData)ViewData["layoutData"];
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <meta name="theme-color" content="#000000">
+    <title>@layoutData.Title</title>
+@if(!String.IsNullOrEmpty(layoutData.CanonicalAbsoluteUrl)) {
+    <link rel="canonical" href="@layoutData.CanonicalAbsoluteUrl">
+}
+@if(!String.IsNullOrEmpty(layoutData.RssAbsoluteUrl)) {
+    <link rel="alternate" type="application/rss+xml" href="@layoutData.RssAbsoluteUrl">
+}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600&subset=latin,greek,cyrillic,latin-ext">
+@foreach(var href in layoutData.Libs.CssUrls) {
+    <link rel="stylesheet" href="@href">
+}
+    <link rel="stylesheet" href="/style.css">
+@if(!String.IsNullOrEmpty(layoutData.OpenGraphDescription)) {
+    <meta property="og:description" content="@layoutData.OpenGraphDescription">
+}
+@if(!String.IsNullOrEmpty(layoutData.OpenGraphType)) {
+    <meta property="og:type" content="@layoutData.OpenGraphType">
+}
+@if(!String.IsNullOrEmpty(layoutData.OpenGraphImageAbsoluteUrl)) {
+    <meta property="og:image" content="@layoutData.OpenGraphImageAbsoluteUrl">
+    <meta name="twitter:card" content="summary_large_image">
+}
+@if(!String.IsNullOrEmpty(layoutData.RobotsTag)) {
+    <meta name="robots" content="@layoutData.RobotsTag">
+}
+    <script>
+        /p=\d/.test(location.search) && document.write("<script src=/@BlogInfo.LegacyIDRedirectScriptFileName><\/script>");
+    </script>
+@if(Utils.RenderTrackers) {
+    @Html.Raw(System.IO.File.ReadAllText("trackers.txt"))
+} else {
+    <!-- Trackers place -->
+}
+</head>
+<body>
+    <div id="page">
+        <div id="header">
+            <div id="headerimage">
+                <h1><a href="/">@BlogInfo.Title</a></h1>
+                <div class="description">@BlogInfo.Description</div>
+            </div>
+        </div>
+        <hr class="plainscape">
+        <div id="wrapper" class="hasfloats">
+            <div id="content">
+                @RenderBody()
+            </div>
+            <div id="sidebar">
+                <p><img width="200" height="200" alt="Gravatar" src="@BlogInfo.GetGravatarUrl(400)"></p>
+                <ul>
+                    <li>
+                        <h2>Темы</h2>
+                        <div><a href="/docker-toc/">Docker</a></div>
+                    </li>
+                    <li>
+                        <h2>Контакты</h2>
+@foreach(var c in BlogInfo.ContactLinks) {
+                        <div><a href="@c.Url">@c.Title</a></div>
+}
+                    </li>
+                    <li>
+                        <h2>Поиск</h2>
+                        <input type="search">
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr class="plainscape">
+        <div id="footer">
+            <p>
+                Материалы опубликованы на условиях лицензии
+                <a rel="license" href="@BlogInfo.LicenseDeedUrl">@BlogInfo.LicenseName</a>.
+            </p>
+            <p>
+                Proudly hosted by <a href="https://m.do.co/c/8183daf27a39" rel="nofollow">DigitalOcean</a>
+            </p>
+        </div>
+    </div>
+
+@foreach(var src in layoutData.Libs.IncludeScriptUrls) {
+    <script src="@src"></script>
+}
+
+    <script>
+        $(function() {
+@foreach(var line in layoutData.Libs.InitScripts) {
+    @Html.Raw(" ".PadLeft(12, ' ') + line + "\n")
+}
+            $("#sidebar input[type=search]").keypress(function(e) {
+                var text = $(this).val();
+                if(e.keyCode === 13 && $.trim(text).length)
+                    location.href = "https://google.com/search?q=site:blog.amartynov.ru+" + encodeURIComponent(text);
+            });
+        });
+    </script>
+
+@if(layoutData.RenderDisqus) {
+    <script>
+        var disqus_config = function() {
+            this.page.url = "@layoutData.CanonicalAbsoluteUrl";
+        };
+    </script>
+    <script src="https://blog-amartynov.disqus.com/embed.js"></script>
+}
+</body>
+</html>

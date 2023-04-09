@@ -1,0 +1,13 @@
+@model Blog.PrevNextViewModel
+<div class="prevnext hasfloats">
+@if(Model.HasPrev) {
+    <div class="prev">
+        <a rel="prev" href="@Model.PrevUrl">&#9666; @Model.PrevTitle</a>
+    </div>
+}
+@if(Model.HasNext) {
+    <div class="next">
+        <a rel="next" href="@Model.NextUrl">@Model.NextTitle &#9656;</a>
+    </div>
+}
+</div>

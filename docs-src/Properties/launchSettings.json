@@ -1,0 +1,19 @@
+{
+  "profiles": {
+    "DynamicSite": {
+      "commandName": "Project",
+      "commandLineArgs": "dynamic-site",
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:8099/"
+    },
+    "NewPost": {
+      "commandName": "Project",
+      "commandLineArgs": "new-post"
+    },
+    "BuildStaticSite": {
+      "commandName": "Project",
+      "commandLineArgs": "build-static-site",
+      "applicationUrl": "http://localhost:8099/"
+    }
+  }
+}

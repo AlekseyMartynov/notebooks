@@ -1,0 +1,17 @@
+@model Blog.PageViewModel
+@{ Layout = "~/views/Layout.cshtml"; }
+
+@foreach(var p in Model.Items) {
+    <div class="post">
+        <h2><a href="@p.Url" rel="bookmark">@p.Title</a></h2>
+        <div class="postmetadata">@p.Date</div>
+        <div class="entry">
+            @Html.Raw(p.PreviewHtml)
+@if(p.HasCut) {
+            <p><a href="@p.Url#more" class="more-link">Читать далее &#9656;</a></p>
+}
+        </div>
+    </div>
+}
+
+@Html.Partial("~/views/PrevNext.cshtml", Model.PrevNext)
