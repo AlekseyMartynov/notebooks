@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <meta name="theme-color" content="#000000">
+    <title>Docker: containerd, runC, runV и в общем про архитектуру</title>
+    <link rel="canonical" href="https://alekseymartynov.github.io/notebooks/docker-containerd-runc-runv/">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600&subset=latin,greek,cyrillic,latin-ext">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="/notebooks/style.css">
+    <meta property="og:description" content="Сначала Docker был монолитом. И это преподносилось как преимущество. Например, в знаменитом “Introduction to Docker” на 20-й минуте Соломон Хайкс рассказывает как здорово, что Docker — это один файл. Кладешь его в систему, и готово! Позже, однако, монолитность была названа одной из причин размолвки…">
+    <meta property="og:type" content="article">
+    <meta property="og:image" content="https://alekseymartynov.github.io/notebooks/storage/docker-containerd-runc/proc.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="robots" content="noarchive">
+    <script>
+        /p=\d/.test(location.search) && document.write("<script src=/notebooks/legacy-id-redirect.js><\/script>");
+    </script>
+    <!-- Trackers place -->
+</head>
+<body>
+    <div id="page">
+        <div id="header">
+            <div id="headerimage">
+                <h1><a href="/notebooks/">AM&#x27;s Notebooks</a></h1>
+                <div class="description">Misc tech notes</div>
+            </div>
+        </div>
+        <hr class="plainscape">
+        <div id="wrapper" class="hasfloats">
+            <div id="content">
+                
+<div class="post" style="min-height: 250px">
+    <h2><a href="/notebooks/docker-containerd-runc-runv/" rel="bookmark">Docker: containerd, runC, runV и в общем про архитектуру</a></h2>
+    <div class="postmetadata">
+06.08.2016 &bull; blog.amartynov.ru archive    </div>
+    <div class="entry"><p>Сначала Docker был монолитом. И это преподносилось как преимущество. Например, в знаменитом “Introduction to Docker” <a href="https://youtu.be/Q5POuMHxW-0?t=20m" target="_blank">на 20-й минуте</a> Соломон Хайкс рассказывает как здорово, что Docker — это один файл. Кладешь его в систему, и готово! Позже, однако, монолитность была названа одной из причин <a href="https://web.archive.org/web/20161228100231/https://coreos.com/blog/rocket/" target="_blank">размолвки</a> между Docker и CoreOS и последовавшего за этим <a href="https://news.ycombinator.com/item?id=8682525" target="_blank">бурления на Hacker News</a>:</p>
+<blockquote>
+<p>Docker process model — where everything runs through a central daemon — is fundamentally flawed. To “fix” Docker would essentially mean a rewrite of the project…</p>
+</blockquote>
+<p>Но всё, что ни делается — к лучшему. Резонанс утих, а сообщество разработчиков договорилось о необходимости разрабатывать открытые стандарты и делать декомпозицию. Появился проект ​<a href="https://opencontainers.org" target="_blank">Open Container Initiative</a> (OCI) и разные интересные названия: <code>containerd</code>, <code>runC</code>, <code>runV</code>, <code>runZ</code>…</p>
+<span id="more"></span>
+<p>Если сейчас (речь о версии 1.12) посмотреть на процессы, запущенные на машине с работающим Докером, то будет примерно такая картина:</p>
+<p><img src="/notebooks/storage/docker-containerd-runc/proc.png" alt="" width="650" height="300"></p>
+<ul>
+<li><p><code>docker</code> — консольный клиент, посредством которого мы управляем Докером.</p>
+</li>
+<li><p><code>dockerd</code> — демон, обеспечивающий само существование и работу Докера.</p>
+</li>
+<li><p><code>docker-proxy</code> — так называемый userland proxy, который по умолчанию запускается для каждого контейнера, если он <a href="https://docs.docker.com/config/containers/container-networking/#published-ports" target="_blank">пробрасывает наружу порты</a>.</p>
+</li>
+</ul>
+<p>А что же такое <code>docker-containerd</code> и <code>docker-containerd-shim</code>?</p>
+<p>Оказывается, самая важная функциональность (запуск контейнеров) вынесена в отдельные проекты, у которых даже есть свои смешные логотипы и сайты: <a href="https://github.com/opencontainers/runc" target="_blank">runC</a> и <a href="https://containerd.io/" target="_blank">containerd</a>.</p>
+<p><strong>runC</strong> — это реализация <a href="https://github.com/opencontainers/runtime-spec" target="_blank">спецификации OCI</a> на базе средств ядра Linux (<a href="https://en.wikipedia.org/wiki/Linux_namespaces" target="_blank">namespaces</a>, <a href="https://ru.wikipedia.org/wiki/Cgroups" target="_blank">cgroups</a>, <a href="https://en.wikipedia.org/wiki/Seccomp" target="_blank">seccomp</a>, <a href="https://man7.org/linux/man-pages/man7/capabilities.7.html" target="_blank">capabilities</a>, <a href="https://ru.wikipedia.org/wiki/SELinux" target="_blank">SELinux</a> и так далее).</p>
+<p>runC запускает Linux-процессы в изолированных окружениях, в контейнерах.</p>
+<p>В ранних версиях (до 0.9) Docker <a href="https://github.com/moby/moby/blob/v0.8.1/execdriver/lxc/driver.go#L79-L177" target="_blank">использовал для этого LXC</a>. Позже написали свою библиотеку <a href="https://github.com/docker/libcontainer" target="_blank">libcontainer</a> и <a href="https://web.archive.org/web/20160310045234/https://blog.docker.com/2014/03/docker-0-9-introducing-execution-drivers-and-libcontainer/" target="_blank">пересели на неё</a>. Ну а с началом движухи вокруг Open Container Initiative переупаковали её в как бы самодостаточный инструмент и переименовали в “runC”. Вот так.</p>
+<p>С помощью <strong>containerd</strong> и вспомогательной прослойки containerd-shim (которую в будущем, <a href="https://github.com/containerd/containerd/pull/227" target="_blank">вероятно, уберут</a>) Docker следит за процессами-контейнерами, может к ним подключаться и всячески ими управлять.</p>
+<p>Зачем понадобилось так много сущностей? Тут и технические причины, и желание разбить сложную систему на более простые компоненты, и стремление следовать принципам <a href="https://ru.wikipedia.org/wiki/%D0%A4%D0%B8%D0%BB%D0%BE%D1%81%D0%BE%D1%84%D0%B8%D1%8F_UNIX" target="_blank">философии UNIX</a>. Подробности можно почерпнуть из следующих источников:</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=ZAhzoz2zJj8" target="_blank">runC: The little engine that could…</a></li>
+<li><a href="https://www.youtube.com/watch?v=VWuHWfEB6ro" target="_blank">containerd — Building a Container Supervisor</a></li>
+<li><a href="https://web.archive.org/web/20160411110009/https://blog.docker.com/2015/06/runc/" target="_blank">Introducing RunC: A Lightweight Universal Container Runtime</a></li>
+<li><a href="https://web.archive.org/web/20160413234525/https://blog.docker.com/2016/04/docker-engine-1-11-runc/" target="_blank">Docker 1.11: The First Runtime Built On Containerd And Based On OCI Technology</a></li>
+</ul>
+<p>Но что тут самое интересное — это то, что containerd и runC можно подменять на другие OCI-совместимые реализации. И уже существует проект <strong><a href="https://github.com/hyperhq/runv" target="_blank">runV</a></strong> от компании <a href="https://web.archive.org/web/20160719030159/https://www.hyper.sh/" target="_blank">HyperHQ</a> и продукт <a href="https://web.archive.org/web/20160805024948/https://www.hypercontainer.io/" target="_blank">HyperContainer</a>, в котором Docker запускает контейнеры в виде виртуальных машин.</p>
+<p>Стоп-стоп-стоп! Как же так? Что за нонсенс? С самого начала Docker <a href="https://github.com/moby/moby/tree/v1.12.0#better-than-vms" target="_blank">противопоставлялся виртуальным машинам</a>, а тут такое дело…</p>
+<p>Видимо, мы наблюдаем момент, когда термин “контейнер” выходит за свои привычные рамки и начинает обозначать любую технологию изоляции, будь то виртуальные машины, Linux-контейнеры, <a href="https://ru.wikipedia.org/wiki/FreeBSD_Jail" target="_blank">FreeBSD Jails</a>, <a href="https://ru.wikipedia.org/wiki/Solaris_Containers" target="_blank">Solaris Zones</a>, <a href="https://docs.microsoft.com/en-us/virtualization/windowscontainers/about/index" target="_blank">Windows Containers</a> или что-либо ещё. Есть <a href="http://image.slidesharecdn.com/containerdandrunc-160504230850/95/docker-111-meetup-containerd-and-runc-by-arnaud-porterie-and-michael-crosby-12-638.jpg" target="_blank">неподтверждённые слухи</a>, что Oracle и Intel уже работают над своими реализациями OCI-стандарта. Жуть!</p>
+<p>А хотите попробовать <strong>runV</strong> в действии? Это несложно.</p>
+<div class="vuk-info"><p>Я использовал Ubuntu 16.04, Docker 1.12 и runV 0.6</p>
+</div>
+<p>Сначала установим зависимости:</p>
+<pre><code class="nohighlight">sudo apt-get install autoconf automake pkg-config make gcc git golang qemu
+</code></pre>
+<p>Скачиваем, собираем и устанавливаем runV:</p>
+<pre><code class="nohighlight">export GOPATH=$HOME/gopath
+git clone https://github.com/hyperhq/runv/ $GOPATH/src/github.com/hyperhq/runv
+cd $GOPATH/src/github.com/hyperhq/runv
+./autogen.sh
+./configure
+sudo GOPATH=$GOPATH make install
+</code></pre>
+<p>Убеждаемся, что всё срослось:</p>
+<pre><code class="nohighlight">runv
+
+NAME:
+   runv - Open Container Initiative hypervisor-based runtime
+   . . .
+</code></pre>
+<pre><code class="nohighlight">runv-containerd --help
+
+NAME:
+   runv-containerd - High performance hypervisor based container daemon
+   . . .
+</code></pre>
+<p>Теперь надо подготовить ядро и initrd для виртуальных машин:</p>
+<pre><code class="nohighlight">cd ~
+git clone https://github.com/hyperhq/hyperstart
+cd hyperstart
+./autogen.sh
+./configure
+make
+</code></pre>
+<p>В директории <code>~/hyperstart/build</code> должны появиться файлы <code>kernel</code> и <code>hyper-initrd.img</code>.</p>
+<p>Что ж, приготовления закончены. Можно запускать.</p>
+<p>Сначала останавливаем Docker daemon:</p>
+<pre><code class="nohighlight">sudo service docker stop
+</code></pre>
+<p>Запускаем реализацию containerd, предназначенную для работы с runV:</p>
+<pre><code class="nohighlight">sudo runv-containerd --debug \
+    --listen /tmp/runv.sock \
+    --driver qemu \
+    --kernel $HOME/hyperstart/build/kernel \
+    --initrd $HOME/hyperstart/build/hyper-initrd.img
+</code></pre>
+<p>Открываем ещё один терминал, и запускаем в нём Docker с привязкой к новому containerd:</p>
+<pre><code class="nohighlight">sudo docker daemon -D -l debug --containerd=/tmp/runv.sock
+</code></pre>
+<p>В третьем терминале создаём контейнер:</p>
+<pre><code class="nohighlight">sudo docker run --rm -ti ubuntu
+</code></pre>
+<p>Повиснет пауза в несколько секунд, а <code>runv-containerd</code> начнёт писать в консоль, как он запускает <a href="https://ru.wikipedia.org/wiki/QEMU" target="_blank">QEMU</a>…</p>
+<p>В четвёртом терминале можно дать команду <code>ps ax | grep qemu</code> и убедиться, что действительно работает виртуальная машина.</p>
+<p>Внутри контейнера мне удалось выполнить <code>apt-get</code> и запустить <code>nginx</code>. Монтирование томов и проброс портов тоже получилось.</p>
+<p>Непонятно, конечно, насколько такая супер-универсальность окажется востребована, и доведут ли до ума хотя бы одну реализацию OCI-спецификации помимо runC. Но как будто бы не за горами тот день, когда мы запустим Windows внутри Докера на Линуксе!</p>
+</div>
+</div>
+
+<div id="disqus_thread"></div>
+
+<div class="prevnext hasfloats">
+    <div class="prev">
+        <a rel="prev" href="/notebooks/docker-userns-remap/">&#9666; Docker: user namespaces</a>
+    </div>
+    <div class="next">
+        <a rel="next" href="/notebooks/pareto-front/">Pareto Front &#9656;</a>
+    </div>
+</div>
+
+
+            </div>
+        </div>
+        <hr class="plainscape">
+        <div id="footer">
+            <p>
+                Материалы опубликованы на условиях лицензии
+                <a rel="license" href="https://creativecommons.org/licenses/by/3.0/deed.ru" target="_blank">Creative Commons Attribution 3.0 Unported</a>.
+            </p>
+            <p>
+                Proudly hosted by <a href="https://m.do.co/c/8183daf27a39" rel="nofollow" target="_blank">DigitalOcean</a>
+            </p>
+        </div>
+    </div>
+
+
+    <script>
+        addEventListener("DOMContentLoaded", function() {
+        });
+    </script>
+
+</body>
+</html>

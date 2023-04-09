@@ -25,5 +25,122 @@
 <p>На языке науки это называется <a href="https://en.wikipedia.org/wiki/Multi-objective_optimization">multi-objective optimization</a> —  многофакторная/многокритериальная оптимизация.</p>
 <p><a href="https://alekseymartynov.github.io/notebooks/pareto-front/">Читать на сайте…</a></p>]]></description>
     </item>
+    <item>
+      <guid isPermaLink="true">https://alekseymartynov.github.io/notebooks/docker-containerd-runc-runv/</guid>
+      <link>https://alekseymartynov.github.io/notebooks/docker-containerd-runc-runv/</link>
+      <pubDate>6 Aug 2016 00:00:00 +0300</pubDate>
+      <title>Docker: containerd, runC, runV и в общем про архитектуру</title>
+      <description><![CDATA[<p>Сначала Docker был монолитом. И это преподносилось как преимущество. Например, в знаменитом “Introduction to Docker” <a href="https://youtu.be/Q5POuMHxW-0?t=20m">на 20-й минуте</a> Соломон Хайкс рассказывает как здорово, что Docker — это один файл. Кладешь его в систему, и готово! Позже, однако, монолитность была названа одной из причин <a href="https://web.archive.org/web/20161228100231/https://coreos.com/blog/rocket/">размолвки</a> между Docker и CoreOS и последовавшего за этим <a href="https://news.ycombinator.com/item?id=8682525">бурления на Hacker News</a>:</p>
+<blockquote>
+<p>Docker process model — where everything runs through a central daemon — is fundamentally flawed. To “fix” Docker would essentially mean a rewrite of the project…</p>
+</blockquote>
+<p>Но всё, что ни делается — к лучшему. Резонанс утих, а сообщество разработчиков договорилось о необходимости разрабатывать открытые стандарты и делать декомпозицию. Появился проект ​<a href="https://opencontainers.org">Open Container Initiative</a> (OCI) и разные интересные названия: <code>containerd</code>, <code>runC</code>, <code>runV</code>, <code>runZ</code>…</p>
+<p><a href="https://alekseymartynov.github.io/notebooks/docker-containerd-runc-runv/">Читать на сайте…</a></p>]]></description>
+    </item>
+    <item>
+      <guid isPermaLink="true">https://alekseymartynov.github.io/notebooks/docker-userns-remap/</guid>
+      <link>https://alekseymartynov.github.io/notebooks/docker-userns-remap/</link>
+      <pubDate>20 Mar 2016 00:00:00 +0300</pubDate>
+      <title>Docker: user namespaces</title>
+      <description><![CDATA[<p>С самого начала пользователей Докера, обеспокоенных вопросами безопасности, волновал тот факт, что внутри контейнеров идентификаторы пользователей и групп начинаются с нуля. Иными словами, <code>root</code> в контейнере равносилен <code>root</code>-у во внешней системе. И даже <a href="https://redd.it/316znt">нашлись сценарии</a> (не самые тривиальные, конечно), в которых <code>root</code> выбирается наружу.</p>
+<p>В Docker 1.10 добавили поддержку так называемых <a href="https://docs.docker.com/engine/security/userns-remap/">user namespaces</a>, которые призваны исправить эту ситуацию.</p>
+<h3>Нужно ли скорее бежать и включать их у себя?</h3>
+<p>Не спешите! Во всей этой истории предполагается, что зловредный пользователь контейнера хочет атаковать внешнюю систему. Такое возможно в сценариях хостинга и аренды. Если же вы используете Docker сами и на своих серверах, то, конечно же, не будете этого делать, а наоборот будете соблюдать правила безопасности внутри контейнеров. “Внутренний” <code>root</code> заслуживает такого же бережного обращения как и внешний.</p>
+<p><a href="https://alekseymartynov.github.io/notebooks/docker-userns-remap/">Читать на сайте…</a></p>]]></description>
+    </item>
+    <item>
+      <guid isPermaLink="true">https://alekseymartynov.github.io/notebooks/интерполяция-или-фильтр/</guid>
+      <link>https://alekseymartynov.github.io/notebooks/интерполяция-или-фильтр/</link>
+      <pubDate>6 Jul 2014 00:00:00 +0400</pubDate>
+      <title>Интерполяция или фильтр?</title>
+      <description><![CDATA[<p>Долгое время меня беспокоил вопрос, почему слова “интерполяция” и “фильтр” порой употребляются как взаимозаменяемые. Например, <a href="https://ru.wikipedia.org/wiki/%D0%91%D0%B8%D0%BB%D0%B8%D0%BD%D0%B5%D0%B9%D0%BD%D0%B0%D1%8F_%D1%84%D0%B8%D0%BB%D1%8C%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F">билинейная фильтрация</a> и <a href="https://ru.wikipedia.org/wiki/%D0%91%D0%B8%D0%BB%D0%B8%D0%BD%D0%B5%D0%B9%D0%BD%D0%B0%D1%8F_%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%BF%D0%BE%D0%BB%D1%8F%D1%86%D0%B8%D1%8F">билинейная интерполяция</a> по сути одно и то же явление.</p>
+<p>Несколько лет назад я уже пытался в этом разобраться в контексте статьи <del>про сэмплирование, квантование, фильтры и интерполяцию</del>. Статья получилась так себе — я в ней налажал и ничего толком не объяснил, потому что разобраться в такой теме с наскоку невозможно. Теперь по прошествии нескольких лет я поумнел и, кажется, вник в суть.</p>
+<p>Поехали. Я буду считать, что вы знаете, чем дискретный сигнал отличается от непрерывного, и зачем вообще всё это нужно.</p>
+<p><a href="https://alekseymartynov.github.io/notebooks/интерполяция-или-фильтр/">Читать на сайте…</a></p>]]></description>
+    </item>
+    <item>
+      <guid isPermaLink="true">https://alekseymartynov.github.io/notebooks/теорема-котельникова-дискретизация/</guid>
+      <link>https://alekseymartynov.github.io/notebooks/теорема-котельникова-дискретизация/</link>
+      <pubDate>1 Dec 2012 00:00:00 +0400</pubDate>
+      <title>Подробнее про теорему Котельникова и дискретизацию сигналов</title>
+      <description><![CDATA[<p>Теорему Котельникова я уже вскользь упоминал в статьях про <del>интерполяцию</del> и <del>синтез гитарного звука</del>. Сегодня чувствую в себе силы углубиться в тему по-полной, буквально нырнуть с головой.</p>
+<p>Чтобы никого не обидеть, теорему эту называют теоремой Котельникова — Найквиста — Уиттакера — Шеннона, или попросту теоремой отсчётов (the Sampling theorem). Она считается одним из важнейших результатов теории информации.</p>
+<p>Формулировка достаточно простая:</p>
+<blockquote>
+<p>Если аналоговый сигнал не содержит в своем спектре частот выше <code>Fmax</code>, то его можно идеально точно восстановить по дискретным отсчётам, взятым равномерно с частотой строго большей <code>2·Fmax</code>.</p>
+</blockquote>
+<p>Даже если вы не имеете никакого отношения к обработке сигналов, очень может быть, что вам знакома фраза “CD quality 44100 Hz”. Имеется в виду, что на компакт-дисках звук хранится в виде дискретных отсчётов, по 44100 штук на секунду. А это, согласно озвученной теореме, означает что “на CD можно идеально записать звук с частотой до 22050 Гц”, что вполне себе хорошо, так как слышимый человеком диапазон укладывается в эти рамки.</p>
+<p>Казалось бы, всё отлично, что тут ещё обсуждать. Но у меня возник ряд вопросов:</p>
+<ol>
+<li><p>Ограниченность по частоте — так ли это просто, как кажется на первый взгляд?</p>
+</li>
+<li><p>Как именно предполагается восстанавливать сигнал, чтобы получилось “идеально точно”?</p>
+</li>
+<li><p>Что будет, если в оцифровываемом сигнале окажутся частоты равные или превосходящие допустимую половину частоты дискретизации? Они проигнорируются, или произойдет что-то другое?</p>
+</li>
+</ol>
+<p>В процессе поиска ответов я углублялся в детали, а оттуда сверкал глазами скрывающийся в них дьявол.</p>
+<p>Должен предупредить, будет много страшной математики…</p>
+<p><a href="https://alekseymartynov.github.io/notebooks/теорема-котельникова-дискретизация/">Читать на сайте…</a></p>]]></description>
+    </item>
+    <item>
+      <guid isPermaLink="true">https://alekseymartynov.github.io/notebooks/linux-server-backup-to-webdav/</guid>
+      <link>https://alekseymartynov.github.io/notebooks/linux-server-backup-to-webdav/</link>
+      <pubDate>1 Aug 2012 00:00:00 +0400</pubDate>
+      <title>Backup сервера прямо в Яндекс.Диск</title>
+      <description><![CDATA[<p>В предыдущих двух статьях я <del>настраивал LAMP на VPS</del> и <del>прикручивал к нему nginx</del>. Следующее, о чем сразу начинаешь думать — как бы все это не потерять. То есть речь заходит о резервном копировании.</p>
+<p>Обсудим по порядку: что, куда и как бэкапить.</p>
+<p><a href="https://alekseymartynov.github.io/notebooks/linux-server-backup-to-webdav/">Читать на сайте…</a></p>]]></description>
+    </item>
+    <item>
+      <guid isPermaLink="true">https://alekseymartynov.github.io/notebooks/php-sqlite-case-insensitive-like-utf8/</guid>
+      <link>https://alekseymartynov.github.io/notebooks/php-sqlite-case-insensitive-like-utf8/</link>
+      <pubDate>5 Apr 2011 00:00:00 +0400</pubDate>
+      <title>PHP SQLite case-insensitive LIKE for Unicode strings</title>
+      <description><![CDATA[<p>Official SQLite <a href="https://www.sqlite.org/lang_expr.html#like">docs</a> state:</p>
+<blockquote>
+<p>SQLite only understands upper/lower case for ASCII characters by default. The LIKE operator is case sensitive by default for unicode characters that are beyond the ASCII range.</p>
+</blockquote>
+<p>It’s the major inconvenience in using SQLite. Googling for a solution gives links to a lot of discussions, especially about enabling a certain <a href="https://www.sqlite.org/src/doc/trunk/ext/icu/README.txt">ICU extension</a>.</p>
+<p>I am here to give you a complete answer to the question <strong>How to make the LIKE operator case-insensitive for UTF-8 strings when using SQLite via PHP PDO</strong>:</p>
+<pre><code>$pdo = new PDO(&quot;sqlite::memory:&quot;);
+
+# BEGIN
+
+function lexa_ci_utf8_like($mask, $value) {
+    $mask = str_replace(
+        array(&quot;%&quot;, &quot;_&quot;),
+        array(&quot;.*?&quot;, &quot;.&quot;),
+        preg_quote($mask, &quot;/&quot;)
+    );
+    $mask = &quot;/^$mask$/ui&quot;;
+    return preg_match($mask, $value);
+}
+
+$pdo-&gt;sqliteCreateFunction('like', &quot;lexa_ci_utf8_like&quot;, 2);
+
+# END
+
+$pdo-&gt;exec(&quot;create table t1 (x)&quot;);
+$pdo-&gt;exec(&quot;insert into t1 (x) values ('[Привет España Dvořák]')&quot;);
+
+header(&quot;Content-Type: text/plain; charset=utf8&quot;);
+$q = $pdo-&gt;query(&quot;select x from t1 where x like '[_РИ%Ñ%ŘÁ_]'&quot;);
+print $q-&gt;fetchColumn();
+</code></pre>
+<p>The main idea is to override the default implementation of the LIKE function by using the <code>PDO::sqliteCreateFunction</code> call. It’s what the official FAQ <a href="https://www.sqlite.org/faq.html#q18">suggests</a>.</p>
+<p>Advantages:</p>
+<ul>
+<li>it works</li>
+<li>no need to recompile anything</li>
+</ul>
+<p>Disadvantages:</p>
+<ul>
+<li>it’s obviously slower than the native implementation</li>
+<li>The <code>PDO::sqliteCreateFunction</code> method is currently <a href="https://php.net/manual/en/pdo.sqlitecreatefunction.php">marked experimental</a></li>
+</ul>
+<p>Anyway, I hope this post will help you.</p>
+]]></description>
+    </item>
   </channel>
 </rss>

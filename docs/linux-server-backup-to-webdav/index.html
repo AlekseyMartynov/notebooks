@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <meta name="theme-color" content="#000000">
+    <title>Backup сервера прямо в Яндекс.Диск</title>
+    <link rel="canonical" href="https://alekseymartynov.github.io/notebooks/linux-server-backup-to-webdav/">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600&subset=latin,greek,cyrillic,latin-ext">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+    <link rel="stylesheet" href="/notebooks/style.css">
+    <meta property="og:description" content="В предыдущих двух статьях я настраивал LAMP на VPS и прикручивал к нему nginx. Следующее, о чем сразу начинаешь думать — как бы все это не потерять. То есть речь заходит о резервном копировании. Обсудим по порядку: что, куда и как бэкапить…">
+    <meta property="og:type" content="article">
+    <meta name="robots" content="noarchive">
+    <script>
+        /p=\d/.test(location.search) && document.write("<script src=/notebooks/legacy-id-redirect.js><\/script>");
+    </script>
+    <!-- Trackers place -->
+</head>
+<body>
+    <div id="page">
+        <div id="header">
+            <div id="headerimage">
+                <h1><a href="/notebooks/">AM&#x27;s Notebooks</a></h1>
+                <div class="description">Misc tech notes</div>
+            </div>
+        </div>
+        <hr class="plainscape">
+        <div id="wrapper" class="hasfloats">
+            <div id="content">
+                
+<div class="post" style="min-height: 250px">
+    <h2><a href="/notebooks/linux-server-backup-to-webdav/" rel="bookmark">Backup сервера прямо в Яндекс.Диск</a></h2>
+    <div class="postmetadata">
+01.08.2012 &bull; blog.amartynov.ru archive    </div>
+    <div class="entry"><p>В предыдущих двух статьях я <del class="removed_link">настраивал LAMP на VPS</del> и <del class="removed_link">прикручивал к нему nginx</del>. Следующее, о чем сразу начинаешь думать — как бы все это не потерять. То есть речь заходит о резервном копировании.</p>
+<p>Обсудим по порядку: что, куда и как бэкапить.</p>
+<span id="more"></span>
+<h3>Что</h3>
+<ol>
+<li>Все конфиги, которые вы с кропотливо редактировали (<strong>/etc</strong>)</li>
+<li>Все пользовательские файлы (<strong>/home</strong>, <strong>/root</strong>)</li>
+<li>Базы данных (будем иметь в виду MySQL)</li>
+</ol>
+<h3>Куда</h3>
+<p>Нынче всё уходит в “облака”. Резервные копии хочется складывать туда же.</p>
+<p>Весьма интересным вариантом для хранения бэкапа оказался Яндекс.Диск. У него есть несколько преимуществ:</p>
+<ul>
+<li>Бесплатные 10 Гб</li>
+<li>Он находится в России, и файлы очень быстро на него заливаются</li>
+<li>Умеет работать по протоколу WebDAV, что позволяет загружать на него данные из консоли с помощью команды <code>curl</code></li>
+</ul>
+<h3>Как</h3>
+<p>Вот рецепт. Логинимся root-ом и создаем скрипт:</p>
+<pre><code class="nohighlight">touch backup-now.sh
+</code></pre>
+<p>Далее прячем его от посторонних и делаем исполняемым:</p>
+<pre><code class="nohighlight">chmod 0700 backup-now.sh
+</code></pre>
+<p>Текст скрипта будет примерно таким:</p>
+<pre><code class="language-bash">#!/bin/bash
+
+SERVER_NAME=&quot;server1&quot;
+TIME=`date +%Y-%b`
+
+FS_FILE=/tmp/$SERVER_NAME-fs.$TIME.tar.gz
+MYSQL_FILE=/tmp/$SERVER_NAME-mysql.$TIME.sql.gz
+
+# Archiving filesystem
+tar -czf $FS_FILE /etc /root /home
+
+# Archiving databases
+mysqldump -u root --password=qwerty --all-databases | gzip &gt; $MYSQL_FILE
+
+# Uploading to the cloud
+curl --user USER:PASSWORD -T &quot;{$FS_FILE,$MYSQL_FILE}&quot; https://webdav.yandex.ru/
+
+# Cleanup
+unlink $FS_FILE
+unlink $MYSQL_FILE
+</code></pre>
+<p>Первый раз лучше запускать команды по одной, комментируя остальные. Если все пройдет хорошо, то в вашем Яндекс.Диске появятся два архива.</p>
+<p>Теперь для автоматизации надо добавить симлинк на backup-now.sh в /etc/cron.daily (или /etc/cron.weekly). Только имейте в виду, что на некоторых системах (в частности, на Debian) у симлинка надо убрать расширение (<a href="https://serverfault.com/a/499634" target="_blank">подробности</a>).</p>
+<p>Переменная <code>$TIME</code> подобрана так, что у вас будут скапливаться бекапы от последнего числа каждого месяца. Если не хотите захламлять облако, то это можно убрать из скрипта, однако практика показывает, что старые копии могут оказаться полезными. Просто надо будет периодически удалять старьё.</p>
+<h3>А если не хочу Яндекс.Диск?</h3>
+<p>Очевидно, заливать можно на любой ресурс, поддерживающий WebDAV. Существуют сервисы, открывающие доступ по WebDAV к Dropbox или Google Drive. Ходят слухи, что SkyDrive работает через WebDAV. А также <del class="removed_link" title="https://www.dropbox.com/votebox/122/webdav-support">есть надежда</del>, что поддержка появится в Дропбоксе из коробки.</p>
+<h3>P.S. Шифрование архивов с помощью GnuPG</h3>
+<p>Поскольку бекапы содержат кучу секретной информации (пароли, данные), то имеет смысл их шифровать:</p>
+<pre><code class="language-bash">. . .
+
+GPG_COMMAND=&quot;gpg -c -z 0 --batch --passphrase XXXXXXXXXX&quot;
+
+FS_FILE=/tmp/$SERVER_NAME-fs.$TIME.tar.gz.gpg
+MYSQL_FILE=/tmp/$SERVER_NAME-mysql.$TIME.sql.gz.gpg
+
+# Archiving filesystem
+tar -cz /etc /root /home | $GPG_COMMAND &gt; $FS_FILE
+
+# Archiving databases
+mysqldump -u root --password=qwerty --all-databases | gzip | $GPG_COMMAND &gt; $MYSQL_FILE
+
+. . .
+</code></pre>
+</div>
+</div>
+
+<div id="disqus_thread"></div>
+
+<div class="prevnext hasfloats">
+    <div class="prev">
+        <a rel="prev" href="/notebooks/php-sqlite-case-insensitive-like-utf8/">&#9666; PHP SQLite case-insensitive LIKE for Unicode strings</a>
+    </div>
+    <div class="next">
+        <a rel="next" href="/notebooks/теорема-котельникова-дискретизация/">Подробнее про теорему Котельникова и дискретизацию сигналов &#9656;</a>
+    </div>
+</div>
+
+
+            </div>
+        </div>
+        <hr class="plainscape">
+        <div id="footer">
+            <p>
+                Материалы опубликованы на условиях лицензии
+                <a rel="license" href="https://creativecommons.org/licenses/by/3.0/deed.ru" target="_blank">Creative Commons Attribution 3.0 Unported</a>.
+            </p>
+            <p>
+                Proudly hosted by <a href="https://m.do.co/c/8183daf27a39" rel="nofollow" target="_blank">DigitalOcean</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/dockerfile.min.js"></script>
+
+    <script>
+        addEventListener("DOMContentLoaded", function() {
+            hljs.highlightAll();
+        });
+    </script>
+
+</body>
+</html>
