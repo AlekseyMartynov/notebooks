@@ -117,25 +117,27 @@ namespace Blog {
                     continue;
 
                 var localPath = "wwwroot" + src;
-                var size = Image.FromFile(localPath).Size;
-                var maxWidth = 650;
+                using(var image = Image.FromFile(localPath)) {
+                    var size = image.Size;
+                    var maxWidth = 720;
 
-                var retinaAttr = img.Attributes["data-retina"];
-                if(retinaAttr != null) {
-                    var scale = 2;
-                    if(retinaAttr.Value.Length > 0)
-                        scale = Int32.Parse(retinaAttr.Value);
+                    var retinaAttr = img.Attributes["data-retina"];
+                    if(retinaAttr != null) {
+                        var scale = 2;
+                        if(retinaAttr.Value.Length > 0)
+                            scale = Int32.Parse(retinaAttr.Value);
 
-                    size.Width = size.Width / scale;
-                    size.Height = size.Height / scale;
-                    retinaAttr.Remove();
-                }
+                        size.Width = size.Width / scale;
+                        size.Height = size.Height / scale;
+                        retinaAttr.Remove();
+                    }
 
-                if(size.Width <= maxWidth) {
-                    img.SetAttributeValue("width", size.Width.ToString());
-                    img.SetAttributeValue("height", size.Height.ToString());
-                } else {
-                    img.SetAttributeValue("width", maxWidth.ToString());
+                    if(size.Width <= maxWidth) {
+                        img.SetAttributeValue("width", size.Width.ToString());
+                        img.SetAttributeValue("height", size.Height.ToString());
+                    } else {
+                        img.SetAttributeValue("width", maxWidth.ToString());
+                    }
                 }
             }
         }
