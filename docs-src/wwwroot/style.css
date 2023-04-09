@@ -23,10 +23,21 @@ h3, h4
     font-weight: bold;
 }
 
-h1 { font-size: 390%; }
-h2 { font-size: 260%; }
+h1 { font-size: 300%; }
+h2 { font-size: 200%; }
 h3 { font-size: 130%; }
 h4 { font-size: 100%; }
+
+img
+{
+    max-width: 100%;
+    height: auto;
+}
+
+iframe
+{
+    max-width: 100%;
+}
 
 a,
 .removed_link
@@ -91,12 +102,12 @@ pre code
 {
     text-align: left;
     margin: 0 auto;
-    width: 960px;
+    width: 95%;
+    max-width: 720px;
 }
 
 #header
 {
-    margin: 0 20px;
 }
 
 hr.plainscape
@@ -106,20 +117,13 @@ hr.plainscape
 
 #wrapper
 {
-    padding: 4px 20px 20px;
+    padding: 4px 0 20px;
 }
 
 #content
 {
-    width: 660px;
+    width: 100%;
     float: left;
-}
-
-#sidebar
-{
-    width: 200px;
-    float: right;
-    padding: 20px 0;
 }
 
 #footer
@@ -248,41 +252,6 @@ hr.plainscape
     padding-left: 0.7em;
 }
 
-/* Sidebar */
-
-#sidebar
-{
-    font-size: 120%;
-}
-
-#sidebar h2
-{
-    font-size: 120%;
-    background: url('border_h.png') repeat-x bottom;
-}
-
-#sidebar ul
-{
-    padding: 0;
-}
-
-#sidebar ul li
-{
-    list-style-type: none;
-    margin-bottom: 20px;
-}
-
-#sidebar input
-{
-    border: solid 1px #a9a9a9;
-    padding: 2px;
-    width: 200px;
-    font-family: "Open Sans", sans-serif;
-    font-size: 90%;
-    line-height: inherit;
-    -webkit-appearance: none;
-}
-
 /* vuk styles */
 
 .vuk-info,
@@ -318,47 +287,4 @@ hr.plainscape
 .vuk-danger
 {
     border-color: red;
-}
-
-/* https://www.google.com/webmasters/tools/mobile-friendly */
-
-@media (max-width: 720px) {
-
-    #page
-    {
-        width: 95%;
-    }
-
-    #header,
-    #wrapper
-    {
-        margin: 0;
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    h1 { font-size: 300%; }
-    h2 { font-size: 200%; }
-
-    img
-    {
-        max-width: 100%;
-        height: auto;
-    }
-
-    iframe
-    {
-        max-width: 100%;
-    }
-
-    #content
-    {
-        width: 100%;
-    }
-
-    #sidebar
-    {
-        display: none;
-    }
-
 }

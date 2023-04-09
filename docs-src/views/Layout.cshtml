@@ -56,25 +56,6 @@
             <div id="content">
                 @RenderBody()
             </div>
-            <div id="sidebar">
-                <p><img width="200" height="200" alt="Gravatar" src="@BlogInfo.GetGravatarUrl(400)"></p>
-                <ul>
-                    <li>
-                        <h2>Темы</h2>
-                        <div><a href="/docker-toc/">Docker</a></div>
-                    </li>
-                    <li>
-                        <h2>Контакты</h2>
-@foreach(var c in BlogInfo.ContactLinks) {
-                        <div><a href="@c.Url">@c.Title</a></div>
-}
-                    </li>
-                    <li>
-                        <h2>Поиск</h2>
-                        <input type="search">
-                    </li>
-                </ul>
-            </div>
         </div>
         <hr class="plainscape">
         <div id="footer">
@@ -97,11 +78,6 @@
 @foreach(var line in layoutData.Libs.InitScripts) {
     @Html.Raw(" ".PadLeft(12, ' ') + line + "\n")
 }
-            $("#sidebar input[type=search]").keypress(function(e) {
-                var text = $(this).val();
-                if(e.keyCode === 13 && $.trim(text).length)
-                    location.href = "https://google.com/search?q=site:blog.amartynov.ru+" + encodeURIComponent(text);
-            });
         });
     </script>
 
