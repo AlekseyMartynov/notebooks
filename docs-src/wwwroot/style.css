@@ -127,7 +127,7 @@ hr.plainscape
 
 #wrapper
 {
-    padding: 4px 0 20px;
+    padding-bottom: 20px;
 }
 
 #content
@@ -149,7 +149,6 @@ hr.plainscape
 
 #header
 {
-    background: url('border_h.png') repeat-x bottom;
 }
 
 #headerimage
@@ -172,6 +171,7 @@ hr.plainscape
 .post
 {
     padding: 20px 0;
+    background: url('border_h.png') repeat-x top;
 }
 
 .post h2
