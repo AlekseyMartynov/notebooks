@@ -34,6 +34,11 @@ img
     height: auto;
 }
 
+img[data-fancybox]
+{
+    cursor: zoom-in;
+}
+
 iframe
 {
     max-width: 100%;

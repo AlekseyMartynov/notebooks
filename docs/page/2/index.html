@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width">
     <meta name="theme-color" content="#000000">
-    <title>AM&#x27;s Notebooks ― страница 2 из 2</title>
+    <title>AM’s Notebooks ― страница 2 из 2</title>
     <link rel="canonical" href="https://alekseymartynov.github.io/notebooks/page/2/">
     <link rel="alternate" type="application/rss+xml" href="https://alekseymartynov.github.io/notebooks/rss.xml">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600&subset=latin,greek,cyrillic,latin-ext">
@@ -22,7 +22,7 @@
     <div id="page">
         <div id="header">
             <div id="headerimage">
-                <h1><a href="/notebooks/">AM&#x27;s Notebooks</a></h1>
+                <h1><a href="/notebooks/">AM’s Notebooks</a></h1>
                 <div class="description">Misc tech notes</div>
             </div>
         </div>
@@ -30,6 +30,32 @@
         <div id="wrapper" class="hasfloats">
             <div id="content">
                 
+    <div class="post">
+        <h2><a href="/notebooks/теорема-котельникова-дискретизация/" rel="bookmark">Подробнее про теорему Котельникова и дискретизацию сигналов</a></h2>
+        <div class="postmetadata">01.12.2012</div>
+        <div class="entry">
+            <p>Теорему Котельникова я уже вскользь упоминал в статьях про <del class="removed_link">интерполяцию</del> и <del class="removed_link">синтез гитарного звука</del>. Сегодня чувствую в себе силы углубиться в тему по-полной, буквально нырнуть с головой.</p>
+<p>Чтобы никого не обидеть, теорему эту называют теоремой Котельникова — Найквиста — Уиттакера — Шеннона, или попросту теоремой отсчётов (the Sampling theorem). Она считается одним из важнейших результатов теории информации.</p>
+<p>Формулировка достаточно простая:</p>
+<blockquote>
+<p>Если аналоговый сигнал не содержит в своем спектре частот выше <code>Fmax</code>, то его можно идеально точно восстановить по дискретным отсчётам, взятым равномерно с частотой строго большей <code>2·Fmax</code>.</p>
+</blockquote>
+<p>Даже если вы не имеете никакого отношения к обработке сигналов, очень может быть, что вам знакома фраза “CD quality 44100 Hz”. Имеется в виду, что на компакт-дисках звук хранится в виде дискретных отсчётов, по 44100 штук на секунду. А это, согласно озвученной теореме, означает что “на CD можно идеально записать звук с частотой до 22050 Гц”, что вполне себе хорошо, так как слышимый человеком диапазон укладывается в эти рамки.</p>
+<p>Казалось бы, всё отлично, что тут ещё обсуждать. Но у меня возник ряд вопросов:</p>
+<ol>
+<li><p>Ограниченность по частоте — так ли это просто, как кажется на первый взгляд?</p>
+</li>
+<li><p>Как именно предполагается восстанавливать сигнал, чтобы получилось “идеально точно”?</p>
+</li>
+<li><p>Что будет, если в оцифровываемом сигнале окажутся частоты равные или превосходящие допустимую половину частоты дискретизации? Они проигнорируются, или произойдет что-то другое?</p>
+</li>
+</ol>
+<p>В процессе поиска ответов я углублялся в детали, а оттуда сверкал глазами скрывающийся в них дьявол.</p>
+<p>Должен предупредить, будет много страшной математики…</p>
+
+            <p><a href="/notebooks/теорема-котельникова-дискретизация/#more" class="more-link">Читать далее &#9656;</a></p>
+        </div>
+    </div>
     <div class="post">
         <h2><a href="/notebooks/linux-server-backup-to-webdav/" rel="bookmark">Backup сервера прямо в Яндекс.Диск</a></h2>
         <div class="postmetadata">01.08.2012</div>

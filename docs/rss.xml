@@ -1,17 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule">
   <channel>
-    <title>AM's Notebooks</title>
+    <title>AM’s Notebooks</title>
     <link>https://alekseymartynov.github.io/notebooks</link>
     <atom:link href="https://alekseymartynov.github.io/notebooks/rss.xml" rel="self" type="application/rss+xml" />
     <description>Misc tech notes</description>
     <creativeCommons:license>https://creativecommons.org/licenses/by/3.0/</creativeCommons:license>
-    <pubDate>7 Apr 2023 00:00:00 +0300</pubDate>
+    <pubDate>10 Apr 2023 00:00:00 +0300</pubDate>
     <image>
-      <title>AM's Notebooks</title>
+      <title>AM’s Notebooks</title>
       <link>https://alekseymartynov.github.io/notebooks</link>
       <url>https://github.com/AlekseyMartynov.png</url>
     </image>
+    <item>
+      <guid isPermaLink="true">https://alekseymartynov.github.io/notebooks/pareto-front-multi-objective-vis/</guid>
+      <link>https://alekseymartynov.github.io/notebooks/pareto-front-multi-objective-vis/</link>
+      <pubDate>10 Apr 2023 00:00:00 +0300</pubDate>
+      <title>Pareto Front — пример визуализации для высокой размерности</title>
+      <description><![CDATA[<p>В предыдущем посте я писал про <a href="https://alekseymartynov.github.io/notebooks/pareto-front">оптимальные по Парето множества</a>, именуемые также Парето-фронтами.</p>
+<p>Для двумерного случая их <a href="https://google.com/search?q=pareto+front&amp;tbm=isch">рисуют в виде дуги</a>, что позволяет визуально сопоставить варианты и принять решение.</p>
+<p>Но как быть, когда размерность высокая? Об этом и поговорим.</p>
+<h3>Задачка</h3>
+<p>Есть 2 аргумента и 3 целевые функции. Хочется найти:</p>
+<ul>
+<li>такие минимальные аргументы, с которыми</li>
+<li>первая цель максимизируется,</li>
+<li>а вторая и третья минимизируются.</li>
+</ul>
+<p>Смотрите, какая хитрая формулировка: критерии оптимальности накладываются и на целевые функции, и на параметры. То есть по сути здесь 5 факторов.</p>
+<p><a href="https://alekseymartynov.github.io/notebooks/pareto-front-multi-objective-vis/">Читать на сайте…</a></p>]]></description>
+    </item>
     <item>
       <guid isPermaLink="true">https://alekseymartynov.github.io/notebooks/pareto-front/</guid>
       <link>https://alekseymartynov.github.io/notebooks/pareto-front/</link>
