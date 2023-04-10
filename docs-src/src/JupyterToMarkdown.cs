@@ -54,15 +54,18 @@ namespace Blog {
 
         static void AppendOutput(StringBuilder builder, JsonElement output) {
             switch(output.GetProperty("output_type").GetString()) {
+                case "stream":
+                    AppendCode(builder, output.GetProperty("text").EnumerateArray(), "text");
+                    break;
+
                 case "execute_result":
                 case "display_data":
                     var data = output.GetProperty("data");
 
                     if(data.TryGetProperty("image/svg+xml", out var svg)) {
-                        builder
-                            .Append("![](data:image/svg+xml,")
-                            .Append(EscapeSvg(svg.GetString()))
-                            .AppendLine(")");
+                        AppendInlineImage(builder, "image/svg+xml", EscapeDataString(svg.GetString()));
+                    } else if(data.TryGetProperty("image/png", out var png)) {
+                        AppendInlineImage(builder, "image/png;base64", png.GetString());
                     } else if(data.TryGetProperty("text/plain", out var text)) {
                         AppendCode(builder, text.EnumerateArray(), "text");
                     } else {
@@ -92,6 +95,15 @@ namespace Blog {
             }
         }
 
+        static void AppendInlineImage(StringBuilder builder, string mime, string data) {
+            builder
+                .Append("![](data:")
+                .Append(mime)
+                .Append(",")
+                .Append(data)
+                .AppendLine("){data-fancybox=jupyter-gallery}");
+        }
+
         static void EnsureLineBreak(StringBuilder builder) {
             if(builder[builder.Length - 1] != '\n')
                 builder.Append('\n');
@@ -101,8 +113,22 @@ namespace Blog {
             svg = Regex.Replace(svg, "<!--.+?-->", "", RegexOptions.Singleline);
             svg = Regex.Replace(svg, "\\s+", " ", RegexOptions.Singleline);
             svg = svg.Replace("> <", "><");
-            svg = Uri.EscapeDataString(svg);
+            svg = EscapeDataString(svg);
             return svg;
+        }
+
+        static string EscapeDataString(string text) {
+            // https://stackoverflow.com/q/6695208
+
+            var builder = new StringBuilder();
+            var chunkSize = 1024;
+
+            for(int i = 0; i < text.Length; i += chunkSize) {
+                var chunk = text.Substring(i, Math.Min(chunkSize, text.Length - i));
+                builder.Append(Uri.EscapeDataString(chunk));
+            }
+
+            return builder.ToString();
         }
     }
 
