@@ -1,6 +1,3 @@
-from typing import List
-
-
 class ParetoFrontFinder:
     def __init__(self):
         self.front = []
