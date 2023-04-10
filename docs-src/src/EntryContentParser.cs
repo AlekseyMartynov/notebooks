@@ -99,6 +99,7 @@ namespace Blog {
             Texturize(node);
             SetImageDimensions(node);
             SetNoHighlight(node);
+            ReplaceJupyterLinks(node);
             PatchRootedUrls(node);
             AddTargetBlank(node);
             return node;
@@ -216,6 +217,17 @@ namespace Blog {
                 HLJS = nodeEnumerator.Any(n => IsPreCode(n) && HasLanguageClass(n)),
                 MEJS = nodeEnumerator.Any(n => n.Name == "audio")
             };
+        }
+
+        static void ReplaceJupyterLinks(HtmlNode root) {
+            foreach(var i in root.Descendants("a")) {
+                var href = i.GetAttributeValue("href", "");
+                if(!href.Contains(":") && href.EndsWith(".ipynb")) {
+                    var m = Regex.Match(href, @"\d{8}-(.+?)\.ipynb$");
+                    if(m.Success)
+                        i.SetAttributeValue("href", BlogInfo.PathPrefix + "/" + m.Groups[1].Value);
+                }
+            }
         }
 
         static void PatchRootedUrls(HtmlNode root) {
