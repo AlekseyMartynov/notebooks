@@ -10,7 +10,7 @@ namespace Blog {
             RssFileName = "rss.xml",
             RssAbsoluteUrl = AbsoluteUrl + "/" + RssFileName,
             LegacyIDRedirectScriptFileName = "legacy-id-redirect.js",
-            Title = "AM's Notebooks",
+            Title = "AM’s Notebooks",
             Description = "Misc tech notes",
             LicenseName = "Creative Commons Attribution 3.0 Unported",
             LicenseFullUrl = "https://creativecommons.org/licenses/by/3.0/",
