@@ -13,8 +13,8 @@
       <url>https://github.com/AlekseyMartynov.png</url>
     </image>
     <item>
-      <guid isPermaLink="true">https://alekseymartynov.github.io/notebooks/pareto-front-multi-objective-vis/</guid>
-      <link>https://alekseymartynov.github.io/notebooks/pareto-front-multi-objective-vis/</link>
+      <guid isPermaLink="true">https://alekseymartynov.github.io/notebooks/pareto-front-heatmaps/</guid>
+      <link>https://alekseymartynov.github.io/notebooks/pareto-front-heatmaps/</link>
       <pubDate>10 Apr 2023 00:00:00 +0300</pubDate>
       <title>Pareto Front — пример визуализации для высокой размерности</title>
       <description><![CDATA[<p>В предыдущем посте я писал про <a href="https://alekseymartynov.github.io/notebooks/pareto-front">оптимальные по Парето множества</a>, именуемые также Парето-фронтами.</p>
@@ -28,7 +28,7 @@
 <li>а вторая и третья минимизируются.</li>
 </ul>
 <p>Смотрите, какая хитрая формулировка: критерии оптимальности накладываются и на целевые функции, и на параметры. То есть по сути здесь 5 факторов.</p>
-<p><a href="https://alekseymartynov.github.io/notebooks/pareto-front-multi-objective-vis/">Читать на сайте…</a></p>]]></description>
+<p><a href="https://alekseymartynov.github.io/notebooks/pareto-front-heatmaps/">Читать на сайте…</a></p>]]></description>
     </item>
     <item>
       <guid isPermaLink="true">https://alekseymartynov.github.io/notebooks/pareto-front/</guid>
