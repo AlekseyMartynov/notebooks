@@ -119,7 +119,7 @@ namespace Blog {
                 OpenGraphType = "article",
                 OpenGraphDescription = entryContent.Excerpt,
                 OpenGraphImageAbsoluteUrl = Utils.MakeUrlAbsolute(entryContent.MainImageUrl),
-                //RenderDisqus = true,
+                RenderDisqus = true,
                 Libs = entryContent.Libs,
                 RobotsTag = "noarchive"
             });
