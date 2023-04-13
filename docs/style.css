@@ -248,7 +248,8 @@ hr.plainscape
     max-width: 100%;
 }
 
-.entry img
+.entry img,
+.entry video
 {
     height: auto;
 }
