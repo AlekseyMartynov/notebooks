@@ -110,7 +110,7 @@ namespace Blog {
                 BodyHtml = body.ToString(),
                 PrevNext = prevNext,
                 GitHubUrl = entryPathObj.GetJupyterSourceUrl(),
-                IsFossil = entryPathObj.Date.Year < 2018,
+                IsFossil = !entryPathObj.IsDraft && entryPathObj.Date.Year < 2018,
             };
 
             SetLayoutData(new LayoutData {
@@ -121,7 +121,7 @@ namespace Blog {
                 OpenGraphImageAbsoluteUrl = Utils.MakeUrlAbsolute(entryContent.MainImageUrl),
                 RenderDisqus = true,
                 Libs = entryContent.Libs,
-                RobotsTag = "noarchive"
+                RobotsTag = entryPathObj.IsDraft ? "noindex" : "noarchive"
             });
 
             return View("~/views/Entry.cshtml", vm);

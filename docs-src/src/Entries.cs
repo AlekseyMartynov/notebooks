@@ -10,13 +10,14 @@ namespace Blog {
 
         string[] _postPaths;
         string[] _articlePaths;
+        string[] _draftPaths;
 
         public readonly int PageCount;
 
         public Entries() {
             Console.WriteLine(nameof(Entries));
 
-            InitPaths(out var postPaths, out var articlePaths);
+            InitPaths(out var postPaths, out var articlePaths, out _draftPaths);
 
             var pageCount = postPaths.Length / NPP;
             if(pageCount * NPP < postPaths.Length)
@@ -29,18 +30,28 @@ namespace Blog {
             PageCount = pageCount;
         }
 
-        static void InitPaths(out string[] posts, out string[] articles) {
+        static void InitPaths(out string[] posts, out string[] articles, out string[] drafts) {
             var postList = new List<string>();
+            var draftList = new List<string>();
 
-            postList.AddRange(Directory.EnumerateFiles("../notebooks", "*.ipynb", SearchOption.TopDirectoryOnly));
+            var postSequence = Directory.EnumerateFiles("../notebooks", "*.ipynb", SearchOption.TopDirectoryOnly);
 
             if(Directory.Exists("posts")) {
-                postList.AddRange(Directory.EnumerateFiles("posts", "*.md", SearchOption.AllDirectories));
+                postSequence = postSequence.Concat(Directory.EnumerateFiles("posts", "*.md", SearchOption.AllDirectories));
+            }
+
+            foreach(var p in postSequence) {
+                if(p.Contains(EntryPath.DRAFT_MARKER))
+                    draftList.Add(p);
+                else
+                    postList.Add(p);
             }
 
             posts = postList
                 .OrderByDescending(Path.GetFileName)
                 .ToArray();
+
+            drafts = draftList.ToArray();
 
             if(Directory.Exists("articles")) {
                 articles = Directory.GetFiles("articles", "*.md", SearchOption.AllDirectories);
@@ -54,7 +65,7 @@ namespace Blog {
         }
 
         public IEnumerable<string> AllPaths {
-            get { return _postPaths.Concat(_articlePaths); }
+            get { return _postPaths.Concat(_articlePaths).Concat(_draftPaths); }
         }
 
         public IEnumerable<string> GetPostPathsForPage(int pageIndex) {

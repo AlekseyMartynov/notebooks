@@ -6,10 +6,13 @@ using System.Text.RegularExpressions;
 namespace Blog {
 
     public class EntryPath {
+        public const string DRAFT_MARKER = "-draft.";
+
         public readonly DateTime Date;
         public readonly int LegacyID;
         public readonly string SlugText;
         public bool IsJupyter;
+        public bool IsDraft;
 
         public EntryPath(string path) {
             Console.WriteLine($"{nameof(EntryPath)}({path})");
@@ -22,6 +25,8 @@ namespace Blog {
 
             if(!parsed)
                 throw new Exception();
+
+            IsDraft = path.Contains(DRAFT_MARKER);
         }
 
         public string DateText {
@@ -33,6 +38,8 @@ namespace Blog {
         }
 
         public string GetJupyterSourceUrl() {
+            if(IsDraft)
+                return null;
             if(IsJupyter)
                 return $"https://github.com/AlekseyMartynov/notebooks/blob/-/notebooks/{Date:yyyyMMdd}-{SlugText}.ipynb";
             return null;
