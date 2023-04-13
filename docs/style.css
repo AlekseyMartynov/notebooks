@@ -28,22 +28,6 @@ h2 { font-size: 200%; }
 h3 { font-size: 130%; }
 h4 { font-size: 100%; }
 
-img
-{
-    max-width: 100%;
-    height: auto;
-}
-
-img[data-fancybox]
-{
-    cursor: zoom-in;
-}
-
-iframe
-{
-    max-width: 100%;
-}
-
 a,
 .removed_link
 {
@@ -255,6 +239,23 @@ hr.plainscape
 .entry ul ul ul
 {
     list-style-type: disc;
+}
+
+.entry img,
+.entry iframe,
+.entry video
+{
+    max-width: 100%;
+}
+
+.entry img
+{
+    height: auto;
+}
+
+.entry img[data-fancybox]
+{
+    cursor: zoom-in;
 }
 
 .prevnext
