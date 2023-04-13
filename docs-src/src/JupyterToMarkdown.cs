@@ -43,12 +43,11 @@ namespace Blog {
             if(outputs.Count < 1)
                 return;
 
-            if(outputs.Count > 1)
-                throw new NotSupportedException();
-
             builder.AppendLine();
             builder.AppendLine(":::jupyter-outputs");
-            AppendOutput(builder, outputs[0]);
+            foreach(var output in outputs) {
+                AppendOutput(builder, output);
+            }
             builder.AppendLine(":::");
         }
 
