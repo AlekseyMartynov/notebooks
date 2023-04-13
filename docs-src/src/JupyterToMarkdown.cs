@@ -54,7 +54,7 @@ namespace Blog {
         static void AppendOutput(StringBuilder builder, JsonElement output) {
             switch(output.GetProperty("output_type").GetString()) {
                 case "stream":
-                    AppendCode(builder, output.GetProperty("text").EnumerateArray(), "text");
+                    AppendCode(builder, output.GetProperty("text").EnumerateArray(), "plaintext");
                     break;
 
                 case "execute_result":
@@ -68,7 +68,7 @@ namespace Blog {
                     } else if(data.TryGetProperty("text/html", out var html)) {
                         builder.AppendLine(String.Concat(html.EnumerateArray()));
                     } else if(data.TryGetProperty("text/plain", out var text)) {
-                        AppendCode(builder, text.EnumerateArray(), "text");
+                        AppendCode(builder, text.EnumerateArray(), "plaintext");
                     } else {
                         throw new NotSupportedException();
                     }
