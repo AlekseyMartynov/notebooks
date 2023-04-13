@@ -56,7 +56,7 @@ input = np.genfromtxt('data/5d-in.tsv')
 print(input)
 </code></pre>
 <div class="jupyter-outputs">
-<pre><code class="language-text">[[ 4.    1.5  29.34  0.89  2.  ]
+<pre><code class="language-plaintext">[[ 4.    1.5  29.34  0.89  2.  ]
  [ 3.    2.    8.36  0.1   3.  ]
  [ 2.    2.5  -5.61  2.08  4.  ]
  ...
@@ -78,7 +78,7 @@ print(input)
 print(input)
 </code></pre>
 <div class="jupyter-outputs">
-<pre><code class="language-text">[[-4.   -1.5  29.34 -0.89 -2.  ]
+<pre><code class="language-plaintext">[[-4.   -1.5  29.34 -0.89 -2.  ]
  [-3.   -2.    8.36 -0.1  -3.  ]
  [-2.   -2.5  -5.61 -2.08 -4.  ]
  ...
@@ -96,7 +96,7 @@ for i in input:
 print(len(finder.front), 'of', len(input))
 </code></pre>
 <div class="jupyter-outputs">
-<pre><code class="language-text">114 of 861
+<pre><code class="language-plaintext">114 of 861
 </code></pre>
 </div>
 <p>Осталось более сотни вариантов. Что дальше с ними делать?</p>
@@ -141,7 +141,7 @@ front = front[predicate_index]
 len(front)
 </code></pre>
 <div class="jupyter-outputs">
-<pre><code class="language-text">30
+<pre><code class="language-plaintext">30
 </code></pre>
 </div>
 <pre><code class="language-python">plot_heatmaps()

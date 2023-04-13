@@ -111,28 +111,28 @@ plt.show()
 who_dominates((0, 0), (0, 0))
 </code></pre>
 <div class="jupyter-outputs">
-<pre><code class="language-text">0
+<pre><code class="language-plaintext">0
 </code></pre>
 </div>
 <pre><code class="language-python"># противоречие
 who_dominates((3, 0), (0, 3))
 </code></pre>
 <div class="jupyter-outputs">
-<pre><code class="language-text">0
+<pre><code class="language-plaintext">0
 </code></pre>
 </div>
 <pre><code class="language-python"># преимущество по второй оси
 who_dominates((0, 0), (0, 3))
 </code></pre>
 <div class="jupyter-outputs">
-<pre><code class="language-text">1
+<pre><code class="language-plaintext">1
 </code></pre>
 </div>
 <pre><code class="language-python"># отставание по второй оси
 who_dominates((0, 0), (0, -3))
 </code></pre>
 <div class="jupyter-outputs">
-<pre><code class="language-text">-1
+<pre><code class="language-plaintext">-1
 </code></pre>
 </div>
 <h3>Ингредиент 2: собственно Pareto front</h3>
@@ -172,7 +172,7 @@ def front_push(candidate):
 front
 </code></pre>
 <div class="jupyter-outputs">
-<pre><code class="language-text">[(36.1, -0.47),
+<pre><code class="language-plaintext">[(36.1, -0.47),
  (47.5, -0.5),
  (49.4, -0.54),
  (52.2, -0.56),
