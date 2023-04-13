@@ -98,6 +98,7 @@ namespace Blog {
             var node = doc.DocumentNode;
             Texturize(node);
             SetImageDimensions(node);
+            RemoveVideoAutoPlay(node);
             SetNoHighlight(node);
             ReplaceJupyterLinks(node);
             PatchRootedUrls(node);
@@ -251,6 +252,12 @@ namespace Blog {
                 if(String.IsNullOrEmpty(target) && href.Contains(":"))
                     i.SetAttributeValue("target", "_blank");
             }
+        }
+
+        static void RemoveVideoAutoPlay(HtmlNode root) {
+            // https://github.com/matplotlib/matplotlib/blob/v3.7.1/lib/matplotlib/animation.py#L1307
+            foreach(var i in root.Descendants("video"))
+                i.Attributes["autoplay"]?.Remove();
         }
     }
 
