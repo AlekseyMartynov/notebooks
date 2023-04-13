@@ -66,6 +66,8 @@ namespace Blog {
                         AppendInlineImage(builder, "image/svg+xml", EscapeDataString(svg.GetString()));
                     } else if(data.TryGetProperty("image/png", out var png)) {
                         AppendInlineImage(builder, "image/png;base64", png.GetString());
+                    } else if(data.TryGetProperty("text/html", out var html)) {
+                        builder.AppendLine(String.Concat(html.EnumerateArray()));
                     } else if(data.TryGetProperty("text/plain", out var text)) {
                         AppendCode(builder, text.EnumerateArray(), "text");
                     } else {
