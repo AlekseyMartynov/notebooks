@@ -2,6 +2,7 @@
 @{ Layout = "~/views/Layout.cshtml"; }
 
 @foreach(var p in Model.Items) {
+    <hr class="plainscape">
     <div class="post">
         <h2><a href="@p.Url" rel="bookmark">@p.Title</a></h2>
         <div class="postmetadata">@p.Date</div>
