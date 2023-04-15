@@ -28,10 +28,10 @@
                 <div class="description">Misc tech notes</div>
             </div>
         </div>
-        <hr class="plainscape">
         <div id="wrapper" class="hasfloats">
             <div id="content">
                 
+<hr class="plainscape">
 <div class="post" style="min-height: 250px">
     <h2><a href="/notebooks/docker-containerd-runc-runv/" rel="bookmark">Docker: containerd, runC, runV и в общем про архитектуру</a></h2>
     <div class="postmetadata">
@@ -122,7 +122,7 @@ make
 <pre><code class="nohighlight">sudo docker run --rm -ti ubuntu
 </code></pre>
 <p>Повиснет пауза в несколько секунд, а <code>runv-containerd</code> начнёт писать в консоль, как он запускает <a href="https://ru.wikipedia.org/wiki/QEMU" target="_blank">QEMU</a>…</p>
-<p>В четвёртом терминале можно дать команду <code>ps ax | grep qemu</code> и убедиться, что действительно работает виртуальная машина.</p>
+<p>В четвёртом терминале можно дать команду <code>ps ax | grep qemu</code> и убедиться, что действительно работает виртуальная машина.</p>
 <p>Внутри контейнера мне удалось выполнить <code>apt-get</code> и запустить <code>nginx</code>. Монтирование томов и проброс портов тоже получилось.</p>
 <p>Непонятно, конечно, насколько такая супер-универсальность окажется востребована, и доведут ли до ума хотя бы одну реализацию OCI-спецификации помимо runC. Но как будто бы не за горами тот день, когда мы запустим Windows внутри Докера на Линуксе!</p>
 </div>

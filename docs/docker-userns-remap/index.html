@@ -26,10 +26,10 @@
                 <div class="description">Misc tech notes</div>
             </div>
         </div>
-        <hr class="plainscape">
         <div id="wrapper" class="hasfloats">
             <div id="content">
                 
+<hr class="plainscape">
 <div class="post" style="min-height: 250px">
     <h2><a href="/notebooks/docker-userns-remap/" rel="bookmark">Docker: user namespaces</a></h2>
     <div class="postmetadata">
@@ -43,8 +43,8 @@
 <p>User namespaces — не та опция, с которой можно легко побаловаться. Из-за технических особенностей (а именно — из-за желания избежать копирования больших объемов данных и выставления этим копиям <code>chown</code>) включение, выключение или изменение настроек user namespaces предполагает рестарт Docker engine, повторное вытягивание всех образов и, как следствие, запуск с чистого листа всех контейнеров.</p>
 <h3>Как это работает?</h3>
 <p>Итак, полезли в технические дебри.</p>
-<p>В современных Линуксах для всех пользователей и групп, чьи идентификаторы попадают в интервалы <code>UID_MIN - UID_MAX</code> и <code>GID_MIN - GID_MAX</code> соответственно, выделяются диапазоны из <code>SUB_UID_COUNT</code> и <code>SUB_GID_COUNT</code> штук так называемых subordinate-идентификаторов. Они записываются в файлы <a href="https://man7.org/linux/man-pages/man5/subuid.5.html" target="_blank"><code>/etc/subuid</code></a> и <a href="https://man7.org/linux/man-pages/man5/subgid.5.html" target="_blank"><code>/etc/subgid</code></a>, и принимают значения от <code>SUB_UID_MIN</code> до <code>SUB_UID_MAX</code> и от <code>SUB_GID_MIN</code> до <code>SUB_GID_MAX</code>. Кто не понял — я не виноват 😃</p>
-<p>Значения констант можно подсмотреть в <a href="https://man7.org/linux/man-pages/man8/useradd.8.html" target="_blank"><code>man useradd</code></a>.</p>
+<p>В современных Линуксах для всех пользователей и групп, чьи идентификаторы попадают в интервалы <code>UID_MIN - UID_MAX</code> и <code>GID_MIN - GID_MAX</code> соответственно, выделяются диапазоны из <code>SUB_UID_COUNT</code> и <code>SUB_GID_COUNT</code> штук так называемых subordinate-идентификаторов. Они записываются в файлы <a href="https://man7.org/linux/man-pages/man5/subuid.5.html" target="_blank"><code>/etc/subuid</code></a> и <a href="https://man7.org/linux/man-pages/man5/subgid.5.html" target="_blank"><code>/etc/subgid</code></a>, и принимают значения от <code>SUB_UID_MIN</code> до <code>SUB_UID_MAX</code> и от <code>SUB_GID_MIN</code> до <code>SUB_GID_MAX</code>. Кто не понял — я не виноват 😃</p>
+<p>Значения констант можно подсмотреть в <a href="https://man7.org/linux/man-pages/man8/useradd.8.html" target="_blank"><code>man useradd</code></a>.</p>
 <p>Вот так может выглядеть файл <code>/etc/subuid</code>:</p>
 <pre><code class="nohighlight">user1:100000:65536
 user2:165536:65536

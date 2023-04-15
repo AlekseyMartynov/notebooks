@@ -26,10 +26,23 @@
                 <div class="description">Misc tech notes</div>
             </div>
         </div>
-        <hr class="plainscape">
         <div id="wrapper" class="hasfloats">
             <div id="content">
                 
+    <hr class="plainscape">
+    <div class="post">
+        <h2><a href="/notebooks/docker-userns-remap/" rel="bookmark">Docker: user namespaces</a></h2>
+        <div class="postmetadata">20.03.2016</div>
+        <div class="entry">
+            <p>С самого начала пользователей Докера, обеспокоенных вопросами безопасности, волновал тот факт, что внутри контейнеров идентификаторы пользователей и групп начинаются с нуля. Иными словами, <code>root</code> в контейнере равносилен <code>root</code>-у во внешней системе. И даже <a href="https://redd.it/316znt" target="_blank">нашлись сценарии</a> (не самые тривиальные, конечно), в которых <code>root</code> выбирается наружу.</p>
+<p>В Docker 1.10 добавили поддержку так называемых <a href="https://docs.docker.com/engine/security/userns-remap/" target="_blank">user namespaces</a>, которые призваны исправить эту ситуацию.</p>
+<h3>Нужно ли скорее бежать и включать их у себя?</h3>
+<p>Не спешите! Во всей этой истории предполагается, что зловредный пользователь контейнера хочет атаковать внешнюю систему. Такое возможно в сценариях хостинга и аренды. Если же вы используете Docker сами и на своих серверах, то, конечно же, не будете этого делать, а наоборот будете соблюдать правила безопасности внутри контейнеров. “Внутренний” <code>root</code> заслуживает такого же бережного обращения как и внешний.</p>
+
+            <p><a href="/notebooks/docker-userns-remap/#more" class="more-link">Читать далее &#9656;</a></p>
+        </div>
+    </div>
+    <hr class="plainscape">
     <div class="post">
         <h2><a href="/notebooks/интерполяция-или-фильтр/" rel="bookmark">Интерполяция или фильтр?</a></h2>
         <div class="postmetadata">06.07.2014</div>
@@ -41,6 +54,7 @@
             <p><a href="/notebooks/интерполяция-или-фильтр/#more" class="more-link">Читать далее &#9656;</a></p>
         </div>
     </div>
+    <hr class="plainscape">
     <div class="post">
         <h2><a href="/notebooks/теорема-котельникова-дискретизация/" rel="bookmark">Подробнее про теорему Котельникова и дискретизацию сигналов</a></h2>
         <div class="postmetadata">01.12.2012</div>
@@ -67,6 +81,7 @@
             <p><a href="/notebooks/теорема-котельникова-дискретизация/#more" class="more-link">Читать далее &#9656;</a></p>
         </div>
     </div>
+    <hr class="plainscape">
     <div class="post">
         <h2><a href="/notebooks/linux-server-backup-to-webdav/" rel="bookmark">Backup сервера прямо в Яндекс.Диск</a></h2>
         <div class="postmetadata">01.08.2012</div>
@@ -77,6 +92,7 @@
             <p><a href="/notebooks/linux-server-backup-to-webdav/#more" class="more-link">Читать далее &#9656;</a></p>
         </div>
     </div>
+    <hr class="plainscape">
     <div class="post">
         <h2><a href="/notebooks/php-sqlite-case-insensitive-like-utf8/" rel="bookmark">PHP SQLite case-insensitive LIKE for Unicode strings</a></h2>
         <div class="postmetadata">05.04.2011</div>
