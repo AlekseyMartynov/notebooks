@@ -100,6 +100,7 @@ namespace Blog {
             SetImageDimensions(node);
             RemoveVideoAutoPlay(node);
             SetNoHighlight(node);
+            NoWrapInlineCode(node);
             ReplaceJupyterLinks(node);
             PatchRootedUrls(node);
             AddTargetBlank(node);
@@ -258,6 +259,18 @@ namespace Blog {
             // https://github.com/matplotlib/matplotlib/blob/v3.7.1/lib/matplotlib/animation.py#L1307
             foreach(var i in root.Descendants("video"))
                 i.Attributes["autoplay"]?.Remove();
+        }
+
+        static void NoWrapInlineCode(HtmlNode root) {
+            foreach(var i in root.Descendants("code")) {
+                if(i.ParentNode.Name == "pre")
+                    continue;
+
+                if(i.InnerHtml.Length > 35)
+                    throw new Exception("Inline code too long");
+
+                i.InnerHtml = i.InnerHtml.Replace(' ', '\xa0');
+            }
         }
     }
 
