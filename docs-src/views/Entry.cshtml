@@ -4,23 +4,32 @@
 <hr class="plainscape">
 <div class="post" style="min-height: 250px">
     <h2><a href="@Model.Url" rel="bookmark">@Model.Title</a></h2>
-    <div class="postmetadata">
-@if(Model.HasDate) {
-        @Model.Date
-}
-@if(Model.HasDate && Model.HasGitHubUrl) {
-        <text> &bull; </text>
-}
-@if(!String.IsNullOrEmpty(Model.GitHubUrl)) {
-        <a href="@Model.GitHubUrl" target="_blank">View on GitHub</a>
-}
-@if(Model.IsFossil) {
-        <text> &bull; blog.amartynov.ru archive</text>
-}
-    </div>
+    <div class="postmetadata">@foreach(var block in EnumerateMetaDataBlocks()) { @block(null); }</div>
     <div class="entry">@Html.Raw(Model.BodyHtml)</div>
 </div>
 
 <div id="disqus_thread"></div>
 
 @Html.Partial("~/views/PrevNext.cshtml", Model.PrevNext)
+@{
+    IEnumerable<RazorBlock> EnumerateMetaDataBlocks() {
+        var blocks = new List<RazorBlock>();
+
+        void AddBlock(RazorBlock block) {
+            if(blocks.Count > 0)
+                blocks.Add(@<text> &bull; </text>);
+            blocks.Add(block);
+        }
+
+        if(Model.HasDate)
+            AddBlock(@<text>@Model.Date</text>);
+
+        if(!String.IsNullOrEmpty(Model.GitHubUrl))
+            AddBlock(@<a href="@Model.GitHubUrl" target="_blank">View on GitHub</a>);
+
+        if(Model.IsFossil)
+            AddBlock(@<text>blog.amartynov.ru archive</text>);
+
+        return blocks;
+    }
+}

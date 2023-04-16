@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Blog {
+    public delegate Microsoft.AspNetCore.Html.IHtmlContent RazorBlock(object _);
 
     public static class Utils {
         public static bool RenderTrackers;
