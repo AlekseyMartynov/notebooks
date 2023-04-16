@@ -32,6 +32,7 @@
 <hr class="plainscape">
 <div class="post" style="min-height: 250px" itemscope itemtype="http://schema.org/Article">
     <h2 itemprop="headline"><a href="/notebooks/docker-userns-remap/" rel="bookmark">Docker: user namespaces</a></h2>
+    <meta itemprop="author" content="Aleksey Martynov">
     <div class="postmetadata"><time pubdate itemprop="datePublished" datetime="2016-03-20">20.03.2016</time> &bull; blog.amartynov.ru archive</div>
     <div itemprop="articleBody" class="entry"><p>С самого начала пользователей Докера, обеспокоенных вопросами безопасности, волновал тот факт, что внутри контейнеров идентификаторы пользователей и групп начинаются с нуля. Иными словами, <code>root</code> в контейнере равносилен <code>root</code>-у во внешней системе. И даже <a href="https://redd.it/316znt" target="_blank">нашлись сценарии</a> (не самые тривиальные, конечно), в которых <code>root</code> выбирается наружу.</p>
 <p>В Docker 1.10 добавили поддержку так называемых <a href="https://docs.docker.com/engine/security/userns-remap/" target="_blank">user namespaces</a>, которые призваны исправить эту ситуацию.</p>

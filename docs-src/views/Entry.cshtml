@@ -4,6 +4,7 @@
 <hr class="plainscape">
 <div class="post" style="min-height: 250px" itemscope itemtype="http://schema.org/Article">
     <h2 itemprop="headline"><a href="@Model.Url" rel="bookmark">@Model.Title</a></h2>
+    <meta itemprop="author" content="Aleksey Martynov">
     <div class="postmetadata">@foreach(var block in EnumerateMetaDataBlocks()) { @block(null); }</div>
     <div itemprop="articleBody" class="entry">@Html.Raw(Model.BodyHtml)</div>
 </div>
