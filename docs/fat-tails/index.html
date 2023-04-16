@@ -32,12 +32,10 @@
             <div id="content">
                 
 <hr class="plainscape">
-<div class="post" style="min-height: 250px">
-    <h2><a href="/notebooks/fat-tails/" rel="bookmark">Толстые хвосты</a></h2>
-    <div class="postmetadata">
-15.04.2023 &bull;         <a href="https://github.com/AlekseyMartynov/notebooks/blob/-/notebooks/20230415-fat-tails.ipynb" target="_blank">View on GitHub</a>
-    </div>
-    <div class="entry"><p>Загрузим данные из файла со смешным названием:</p>
+<div class="post" style="min-height: 250px" itemscope itemtype="http://schema.org/Article">
+    <h2 itemprop="headline"><a href="/notebooks/fat-tails/" rel="bookmark">Толстые хвосты</a></h2>
+    <div class="postmetadata"><time pubdate itemprop="datePublished" datetime="2023-04-15">15.04.2023</time> &bull; <a href="https://github.com/AlekseyMartynov/notebooks/blob/-/notebooks/20230415-fat-tails.ipynb" target="_blank">View on GitHub</a></div>
+    <div itemprop="articleBody" class="entry"><p>Загрузим данные из файла со смешным названием:</p>
 <pre><code class="language-python">import numpy as np
 data = np.loadtxt('data/fat-tails.tsv')
 </code></pre>
