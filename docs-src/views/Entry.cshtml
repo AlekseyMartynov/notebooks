@@ -2,10 +2,10 @@
 @{ Layout = "~/views/Layout.cshtml"; }
 
 <hr class="plainscape">
-<div class="post" style="min-height: 250px">
-    <h2><a href="@Model.Url" rel="bookmark">@Model.Title</a></h2>
+<div class="post" style="min-height: 250px" itemscope itemtype="http://schema.org/Article">
+    <h2 itemprop="headline"><a href="@Model.Url" rel="bookmark">@Model.Title</a></h2>
     <div class="postmetadata">@foreach(var block in EnumerateMetaDataBlocks()) { @block(null); }</div>
-    <div class="entry">@Html.Raw(Model.BodyHtml)</div>
+    <div itemprop="articleBody" class="entry">@Html.Raw(Model.BodyHtml)</div>
 </div>
 
 <div id="disqus_thread"></div>
@@ -22,7 +22,7 @@
         }
 
         if(Model.HasDate)
-            AddBlock(@<text>@Model.Date</text>);
+            AddBlock(@<time pubdate itemprop="datePublished" datetime="@Model.MachineDate">@Model.HumanDate</time>);
 
         if(!String.IsNullOrEmpty(Model.GitHubUrl))
             AddBlock(@<a href="@Model.GitHubUrl" target="_blank">View on GitHub</a>);

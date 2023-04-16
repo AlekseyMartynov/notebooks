@@ -7,7 +7,8 @@ namespace Blog {
         public string Url;
         public string Title;
         public bool HasDate;
-        public string Date;
+        public string HumanDate;
+        public string MachineDate;
         public string BodyHtml;
         public PrevNextViewModel PrevNext;
         public string GitHubUrl;

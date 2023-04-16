@@ -104,7 +104,8 @@ namespace Blog {
 
             var vm = new EntryViewModel {
                 Url = entryPathObj.Url,
-                Date = entryPathObj.DateText,
+                HumanDate = entryPathObj.DateText,
+                MachineDate = entryPathObj.Date.ToString("yyyy-MM-dd"),
                 HasDate = entryPathObj.Date > DateTime.MinValue,
                 Title = entryContent.Title,
                 BodyHtml = body.ToString(),
