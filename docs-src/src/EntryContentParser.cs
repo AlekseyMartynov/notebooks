@@ -43,6 +43,17 @@ namespace Blog {
             foreach(var n in allHtmlDescendants)
                 n.Attributes[MAIN_IMAGE_ATTR]?.Remove();
 
+            if(!String.IsNullOrEmpty(mainImageUrl)) {
+                foreach(var n in allHtmlDescendants) {
+                    if(n.Name == "img" && n.GetAttributeValue("src", null) == mainImageUrl) {
+                        n.SetAttributeValue("itemprop", "image");
+                        break;
+                    }
+                }
+                if(mainImageUrl.StartsWith("data:"))
+                    mainImageUrl = null;
+            }
+
             return new EntryContent {
                 Title = HtmlToText(MarkdownToHtml(slices.Title)),
                 BodyBeforeCut = htmlBefore.InnerHtml,
@@ -161,7 +172,6 @@ namespace Blog {
             ?? nodeEnumerator
                 .Where(n => n.Name == "img")
                 .Select(n => n.GetAttributeValue("src", null))
-                .Where(i => !i.StartsWith("data:"))
                 .FirstOrDefault();
         }
 

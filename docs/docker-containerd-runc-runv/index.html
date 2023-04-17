@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="theme-color" content="#000000">
     <title>Docker: containerd, runC, runV и в общем про архитектуру</title>
+    <link rel="icon" href="https://github.com/AlekseyMartynov.png">
     <link rel="canonical" href="https://alekseymartynov.github.io/notebooks/docker-containerd-runc-runv/">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600&subset=latin,greek,cyrillic,latin-ext">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
@@ -43,7 +44,7 @@
 <p>Но всё, что ни делается — к лучшему. Резонанс утих, а сообщество разработчиков договорилось о необходимости разрабатывать открытые стандарты и делать декомпозицию. Появился проект ​<a href="https://opencontainers.org" target="_blank">Open Container Initiative</a> (OCI) и разные интересные названия: <code>containerd</code>, <code>runC</code>, <code>runV</code>, <code>runZ</code>…</p>
 <span id="more"></span>
 <p>Если сейчас (речь о версии 1.12) посмотреть на процессы, запущенные на машине с работающим Докером, то будет примерно такая картина:</p>
-<p><img src="/notebooks/storage/docker-containerd-runc/proc.png" alt="" width="650" height="300"></p>
+<p><img src="/notebooks/storage/docker-containerd-runc/proc.png" alt="" width="650" height="300" itemprop="image"></p>
 <ul>
 <li><p><code>docker</code> — консольный клиент, посредством которого мы управляем Докером.</p>
 </li>

@@ -62,6 +62,8 @@ namespace Blog {
             SetLayoutData(new LayoutData {
                 Title = layoutTitle,
                 CanonicalAbsoluteUrl = Utils.MakeUrlAbsolute(entries.GetPageUrl(pageIndex)),
+                OpenGraphDescription = BlogInfo.Description,
+                OpenGraphImageAbsoluteUrl = Utils.MakeUrlAbsolute(BlogInfo.GetAvatarUrl()),
                 RssAbsoluteUrl = BlogInfo.RssAbsoluteUrl,
                 Libs = libs,
                 RobotsTag = "noarchive, nosnippet"
@@ -119,7 +121,7 @@ namespace Blog {
                 CanonicalAbsoluteUrl = Utils.MakeUrlAbsolute(entryPathObj.Url),
                 OpenGraphType = "article",
                 OpenGraphDescription = entryContent.Excerpt,
-                OpenGraphImageAbsoluteUrl = Utils.MakeUrlAbsolute(entryContent.MainImageUrl),
+                OpenGraphImageAbsoluteUrl = Utils.MakeUrlAbsolute(entryContent.MainImageUrl ?? BlogInfo.GetAvatarUrl()),
                 RenderDisqus = true,
                 Libs = entryContent.Libs,
                 RobotsTag = entryPathObj.IsDraft ? "noindex" : "noarchive"

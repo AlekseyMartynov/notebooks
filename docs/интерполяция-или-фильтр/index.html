@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="theme-color" content="#000000">
     <title>Интерполяция или фильтр?</title>
+    <link rel="icon" href="https://github.com/AlekseyMartynov.png">
     <link rel="canonical" href="https://alekseymartynov.github.io/notebooks/интерполяция-или-фильтр/">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600&subset=latin,greek,cyrillic,latin-ext">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
@@ -45,7 +46,7 @@
 <p>Для простоты (но, как говорится, не теряя общности) предположим, что интервал семплирования равен 1 (то есть отсчеты взяты в “целые моменты времени”):</p>
 <p><img src="/notebooks/storage/interp-as-filter/t.png" alt="" width="35" height="15"></p>
 <p>Если надо получить непрерывный сигнал, проходящий через эти точки, то самое простое и интуитивно понятное из возможного — это соединить их прямыми линиями:</p>
-<p><img src="/notebooks/storage/interp-as-filter/connect.png" alt="" width="548" height="257"></p>
+<p><img src="/notebooks/storage/interp-as-filter/connect.png" alt="" width="548" height="257" itemprop="image"></p>
 <p>Это, собственно, и есть линейная интерполяция. Кто в теме, тот может предложить еще <a href="https://ru.wikipedia.org/wiki/%D0%A1%D0%BF%D0%BB%D0%B0%D0%B9%D0%BD" target="_blank">сплайны</a>, <a href="https://ru.wikipedia.org/wiki/%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%BF%D0%BE%D0%BB%D1%8F%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%B0%D1%8F_%D1%84%D0%BE%D1%80%D0%BC%D1%83%D0%BB%D0%B0_%D0%A3%D0%B8%D1%82%D1%82%D0%B5%D0%BA%D0%B5%D1%80%D0%B0_%E2%80%94_%D0%A8%D0%B5%D0%BD%D0%BD%D0%BE%D0%BD%D0%B0" target="_blank">sinc-ряд</a> и, возможно, еще какие-то методы, но мы сейчас будем заниматься не этим.</p>
 <p>Давайте представим линейную интерполяцию немножко по-другому. Вместо того, чтобы соединять точки линиями, мы в каждый отчет поместим по вот такому “треугольничку”:</p>
 <p><img src="/notebooks/storage/interp-as-filter/kernel-tri-input.png" alt="" width="472" height="168"></p>
