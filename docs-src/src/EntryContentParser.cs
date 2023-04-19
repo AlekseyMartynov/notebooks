@@ -34,8 +34,8 @@ namespace Blog {
 
             var slices = Slice(md);
 
-            var htmlBefore = MarkdownToHtml(slices.Before);
-            var htmlAfter = MarkdownToHtml(slices.After);
+            var htmlBefore = MarkdownToHtml(slices.Before, out var hasMathBefore);
+            var htmlAfter = MarkdownToHtml(slices.After, out var hasMathAfter);
 
             var allHtmlDescendants = htmlBefore.Descendants().Concat(htmlAfter.Descendants());
 
@@ -55,13 +55,13 @@ namespace Blog {
             }
 
             return new EntryContent {
-                Title = HtmlToText(MarkdownToHtml(slices.Title)),
+                Title = HtmlToText(MarkdownToHtml(slices.Title, out _)),
                 BodyBeforeCut = htmlBefore.InnerHtml,
                 BodyAfterCut = htmlAfter.InnerHtml,
                 Excerpt = GenerateExcerpt(htmlBefore),
                 MainImageUrl = mainImageUrl,
-                Libs = DiscoverRequiredLibs(allHtmlDescendants),
-                LibsBeforeCut = DiscoverRequiredLibs(htmlBefore.Descendants())
+                Libs = DiscoverRequiredLibs(allHtmlDescendants, hasMathBefore || hasMathAfter),
+                LibsBeforeCut = DiscoverRequiredLibs(htmlBefore.Descendants(), hasMathBefore)
             };
         }
 
@@ -102,12 +102,15 @@ namespace Blog {
             return (title.Trim(), before.Trim(), after.Trim());
         }
 
-        HtmlNode MarkdownToHtml(string md) {
+        HtmlNode MarkdownToHtml(string md, out bool hasMath) {
+            md = ExtractMath(md, out var math);
+
             var doc = new HtmlDocument();
             doc.LoadHtml(!String.IsNullOrEmpty(md) ? Markdown.ToHtml(md, _pipeline) : "");
 
             var node = doc.DocumentNode;
             Texturize(node);
+            RestoreMath(node, math);
             SetImageDimensions(node);
             RemoveVideoAutoPlay(node);
             SetNoHighlight(node);
@@ -115,7 +118,25 @@ namespace Blog {
             ReplaceJupyterLinks(node);
             PatchRootedUrls(node);
             AddTargetBlank(node);
+
+            hasMath = math.Count > 0;
             return node;
+        }
+
+        static string ExtractMath(string md, out IReadOnlyDictionary<int, string> math) {
+            var index = 0;
+            var dict = new Dictionary<int, string>();
+
+            string HandleMatch(Match m) {
+                index++;
+                dict[index] = m.Value;
+                return $"$$math{index}$$";
+            }
+
+            md = Regex.Replace(md, @"\$\$.+?\$\$", HandleMatch, RegexOptions.Multiline);
+
+            math = dict;
+            return md;
         }
 
         static string HtmlToText(HtmlNode html) {
@@ -208,6 +229,23 @@ namespace Blog {
             return text;
         }
 
+        static void RestoreMath(HtmlNode node, IReadOnlyDictionary<int, string> math) {
+            if(node is HtmlTextNode text) {
+                text.Text = RestoreMath(text.Text, math);
+            } else {
+                foreach(var child in node.ChildNodes)
+                    RestoreMath(child, math);
+            }
+        }
+
+        static string RestoreMath(string text, IReadOnlyDictionary<int, string> math) {
+            string HandleMatch(Match m) {
+                var index = Convert.ToInt32(m.Groups[1].Value);
+                return math[index];
+            }
+            return Regex.Replace(text, @"\$\$math(\d+)\$\$", HandleMatch, RegexOptions.Multiline);
+        }
+
         static void SetNoHighlight(HtmlNode node) {
             foreach(var code in node.Descendants().Where(IsPreCode)) {
                 if(!HasLanguageClass(code))
@@ -223,11 +261,12 @@ namespace Blog {
             return node.GetAttributeValue("class", "").Contains("language-");
         }
 
-        static JsLibs DiscoverRequiredLibs(IEnumerable<HtmlNode> nodeEnumerator) {
+        static JsLibs DiscoverRequiredLibs(IEnumerable<HtmlNode> nodeEnumerator, bool hasMath) {
             return new JsLibs {
                 Fancybox = nodeEnumerator.Any(n => n.GetAttributeValue("data-fancybox", null) != null),
                 HLJS = nodeEnumerator.Any(n => IsPreCode(n) && HasLanguageClass(n)),
-                MEJS = nodeEnumerator.Any(n => n.Name == "audio")
+                MEJS = nodeEnumerator.Any(n => n.Name == "audio"),
+                Math = hasMath
             };
         }
 

@@ -15,11 +15,13 @@ namespace Blog {
         public bool Fancybox;
         public bool HLJS;
         public bool MEJS;
+        public bool Math;
 
         public void Add(JsLibs other) {
             Fancybox = Fancybox || other.Fancybox;
             HLJS = HLJS || other.HLJS;
             MEJS = MEJS || other.MEJS;
+            Math = Math || other.Math;
         }
 
         public IEnumerable<string> CssUrls {
@@ -49,6 +51,9 @@ namespace Blog {
 
                 if(MEJS)
                     yield return $"{CDNJS}/mediaelement/{MEJS_VER}/mediaelement-and-player.min.js";
+
+                if(Math)
+                    yield return $"{CDNJS}/mathjax/3.2.2/es5/tex-chtml.js";
             }
         }
 
