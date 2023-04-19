@@ -6,12 +6,37 @@
     <atom:link href="https://alekseymartynov.github.io/notebooks/rss.xml" rel="self" type="application/rss+xml" />
     <description>Misc tech notes</description>
     <creativeCommons:license>https://creativecommons.org/licenses/by/3.0/</creativeCommons:license>
-    <pubDate>15 Apr 2023 00:00:00 +0300</pubDate>
+    <pubDate>19 Apr 2023 00:00:00 +0300</pubDate>
     <image>
       <title>AM’s Notebooks</title>
       <link>https://alekseymartynov.github.io/notebooks</link>
       <url>https://github.com/AlekseyMartynov.png</url>
     </image>
+    <item>
+      <guid isPermaLink="true">https://alekseymartynov.github.io/notebooks/log-return/</guid>
+      <link>https://alekseymartynov.github.io/notebooks/log-return/</link>
+      <pubDate>19 Apr 2023 00:00:00 +0300</pubDate>
+      <title>Логарифмическая доходность</title>
+      <description><![CDATA[<p>Зимой мистер X купил доллар за 80 рублей. Прошло 3 месяца, рубль укрепился до 60, мистер Х запаниковал и обменял свой  доллар обратно на рубли. И получил, как сейчас принято говорить, отрицательную доходность:</p>
+<p>$$ R = \frac{P_{стало}}{P_{было}} - 1 $$</p>
+<pre><code>60/80 - 1
+</code></pre>
+<div>
+<pre><code>-0.25
+</code></pre>
+</div>
+<p>История могла быть и другой. Мистер Х купил доллар в июле за 60 рублей. Долго ли коротко ли, рубль ослаб до 80. Продал мистер Х свой доллар:</p>
+<pre><code>%precision %.4f
+
+80/60 - 1
+</code></pre>
+<div>
+<pre><code>0.3333
+</code></pre>
+</div>
+<p>Как видите, в процентах движения 60 → 80 и 60 → 80 несимметричны. Иногда это застаёт людей врасплох, и они удивляются, почему нечто, упавшее на 50% должно вырасти на 100%, чтобы вернуться к прежнему значению.</p>
+<p><a href="https://alekseymartynov.github.io/notebooks/log-return/">Читать на сайте…</a></p>]]></description>
+    </item>
     <item>
       <guid isPermaLink="true">https://alekseymartynov.github.io/notebooks/fat-tails/</guid>
       <link>https://alekseymartynov.github.io/notebooks/fat-tails/</link>

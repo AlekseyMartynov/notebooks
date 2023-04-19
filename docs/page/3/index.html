@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <meta name="theme-color" content="#000000">
+    <title>AM’s Notebooks ― страница 3 из 3</title>
+    <link rel="icon" href="https://github.com/AlekseyMartynov.png">
+    <link rel="canonical" href="https://alekseymartynov.github.io/notebooks/page/3/">
+    <link rel="alternate" type="application/rss+xml" href="https://alekseymartynov.github.io/notebooks/rss.xml">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,600&subset=latin,greek,cyrillic,latin-ext">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+    <link rel="stylesheet" href="/notebooks/style.css">
+    <meta property="og:description" content="Misc tech notes">
+    <meta property="og:image" content="https://github.com/AlekseyMartynov.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="robots" content="noarchive, nosnippet">
+    <script>
+        /p=\d/.test(location.search) && document.write("<script src=/notebooks/legacy-id-redirect.js><\/script>");
+    </script>
+    <!-- Trackers place -->
+</head>
+<body>
+    <div id="page">
+        <div id="header">
+            <div id="headerimage">
+                <h1><a href="/notebooks/">AM’s Notebooks</a></h1>
+                <div class="description">Misc tech notes</div>
+            </div>
+        </div>
+        <div id="wrapper" class="hasfloats">
+            <div id="content">
+                
+    <hr class="plainscape">
+    <div class="post">
+        <h2><a href="/notebooks/php-sqlite-case-insensitive-like-utf8/" rel="bookmark">PHP SQLite case-insensitive LIKE for Unicode strings</a></h2>
+        <div class="postmetadata">05.04.2011</div>
+        <div class="entry">
+            <p>Official SQLite <a href="https://www.sqlite.org/lang_expr.html#like" target="_blank">docs</a> state:</p>
+<blockquote>
+<p>SQLite only understands upper/lower case for ASCII characters by default. The LIKE operator is case sensitive by default for unicode characters that are beyond the ASCII range.</p>
+</blockquote>
+<p>It’s the major inconvenience in using SQLite. Googling for a solution gives links to a lot of discussions, especially about enabling a certain <a href="https://www.sqlite.org/src/doc/trunk/ext/icu/README.txt" target="_blank">ICU extension</a>.</p>
+<p>I am here to give you a complete answer to the question <strong>How to make the LIKE operator case-insensitive for UTF-8 strings when using SQLite via PHP PDO</strong>:</p>
+<pre><code class="language-php">$pdo = new PDO(&quot;sqlite::memory:&quot;);
+
+# BEGIN
+
+function lexa_ci_utf8_like($mask, $value) {
+    $mask = str_replace(
+        array(&quot;%&quot;, &quot;_&quot;),
+        array(&quot;.*?&quot;, &quot;.&quot;),
+        preg_quote($mask, &quot;/&quot;)
+    );
+    $mask = &quot;/^$mask$/ui&quot;;
+    return preg_match($mask, $value);
+}
+
+$pdo-&gt;sqliteCreateFunction('like', &quot;lexa_ci_utf8_like&quot;, 2);
+
+# END
+
+$pdo-&gt;exec(&quot;create table t1 (x)&quot;);
+$pdo-&gt;exec(&quot;insert into t1 (x) values ('[Привет España Dvořák]')&quot;);
+
+header(&quot;Content-Type: text/plain; charset=utf8&quot;);
+$q = $pdo-&gt;query(&quot;select x from t1 where x like '[_РИ%Ñ%ŘÁ_]'&quot;);
+print $q-&gt;fetchColumn();
+</code></pre>
+<p>The main idea is to override the default implementation of the LIKE function by using the <code>PDO::sqliteCreateFunction</code> call. It’s what the official FAQ <a href="https://www.sqlite.org/faq.html#q18" target="_blank">suggests</a>.</p>
+<p>Advantages:</p>
+<ul>
+<li>it works</li>
+<li>no need to recompile anything</li>
+</ul>
+<p>Disadvantages:</p>
+<ul>
+<li>it’s obviously slower than the native implementation</li>
+<li>The <code>PDO::sqliteCreateFunction</code> method is currently <a href="https://php.net/manual/en/pdo.sqlitecreatefunction.php" target="_blank">marked experimental</a></li>
+</ul>
+<p>Anyway, I hope this post will help you.</p>
+
+        </div>
+    </div>
+
+<div class="prevnext hasfloats">
+    <div class="next">
+        <a rel="next" href="/notebooks/page/2/">Позже &#9656;</a>
+    </div>
+</div>
+
+
+            </div>
+        </div>
+        <hr class="plainscape">
+        <div id="footer">
+            <p>
+                Материалы опубликованы на условиях лицензии
+                <a rel="license" href="https://creativecommons.org/licenses/by/3.0/deed.ru" target="_blank">Creative Commons Attribution 3.0 Unported</a>.
+            </p>
+            <p>
+                Proudly hosted by <a href="https://m.do.co/c/8183daf27a39" rel="nofollow" target="_blank">DigitalOcean</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/dockerfile.min.js"></script>
+
+    <script>
+        addEventListener("DOMContentLoaded", function() {
+            hljs.highlightAll();
+        });
+    </script>
+
+</body>
+</html>

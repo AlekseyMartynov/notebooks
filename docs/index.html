@@ -36,6 +36,33 @@
                 
     <hr class="plainscape">
     <div class="post">
+        <h2><a href="/notebooks/log-return/" rel="bookmark">Логарифмическая доходность</a></h2>
+        <div class="postmetadata">19.04.2023</div>
+        <div class="entry">
+            <p>Зимой мистер X купил доллар за 80 рублей. Прошло 3 месяца, рубль укрепился до 60, мистер Х запаниковал и обменял свой  доллар обратно на рубли. И получил, как сейчас принято говорить, отрицательную доходность:</p>
+<p>$$ R = \frac{P_{стало}}{P_{было}} - 1 $$</p>
+<pre><code class="language-python">60/80 - 1
+</code></pre>
+<div class="jupyter-outputs">
+<pre><code class="language-plaintext">-0.25
+</code></pre>
+</div>
+<p>История могла быть и другой. Мистер Х купил доллар в июле за 60 рублей. Долго ли коротко ли, рубль ослаб до 80. Продал мистер Х свой доллар:</p>
+<pre><code class="language-python">%precision %.4f
+
+80/60 - 1
+</code></pre>
+<div class="jupyter-outputs">
+<pre><code class="language-plaintext">0.3333
+</code></pre>
+</div>
+<p>Как видите, в процентах движения 60 → 80 и 60 → 80 несимметричны. Иногда это застаёт людей врасплох, и они удивляются, почему нечто, упавшее на 50% должно вырасти на 100%, чтобы вернуться к прежнему значению.</p>
+
+            <p><a href="/notebooks/log-return/#more" class="more-link">Читать далее &#9656;</a></p>
+        </div>
+    </div>
+    <hr class="plainscape">
+    <div class="post">
         <h2><a href="/notebooks/fat-tails/" rel="bookmark">Толстые хвосты</a></h2>
         <div class="postmetadata">15.04.2023</div>
         <div class="entry">
@@ -115,20 +142,6 @@ plt.show()
             <p><a href="/notebooks/pareto-front/#more" class="more-link">Читать далее &#9656;</a></p>
         </div>
     </div>
-    <hr class="plainscape">
-    <div class="post">
-        <h2><a href="/notebooks/docker-containerd-runc-runv/" rel="bookmark">Docker: containerd, runC, runV и в общем про архитектуру</a></h2>
-        <div class="postmetadata">06.08.2016</div>
-        <div class="entry">
-            <p>Сначала Docker был монолитом. И это преподносилось как преимущество. Например, в знаменитом “Introduction to Docker” <a href="https://youtu.be/Q5POuMHxW-0?t=20m" target="_blank">на 20-й минуте</a> Соломон Хайкс рассказывает как здорово, что Docker — это один файл. Кладешь его в систему, и готово! Позже, однако, монолитность была названа одной из причин <a href="https://web.archive.org/web/20161228100231/https://coreos.com/blog/rocket/" target="_blank">размолвки</a> между Docker и CoreOS и последовавшего за этим <a href="https://news.ycombinator.com/item?id=8682525" target="_blank">бурления на Hacker News</a>:</p>
-<blockquote>
-<p>Docker process model — where everything runs through a central daemon — is fundamentally flawed. To “fix” Docker would essentially mean a rewrite of the project…</p>
-</blockquote>
-<p>Но всё, что ни делается — к лучшему. Резонанс утих, а сообщество разработчиков договорилось о необходимости разрабатывать открытые стандарты и делать декомпозицию. Появился проект ​<a href="https://opencontainers.org" target="_blank">Open Container Initiative</a> (OCI) и разные интересные названия: <code>containerd</code>, <code>runC</code>, <code>runV</code>, <code>runZ</code>…</p>
-
-            <p><a href="/notebooks/docker-containerd-runc-runv/#more" class="more-link">Читать далее &#9656;</a></p>
-        </div>
-    </div>
 
 <div class="prevnext hasfloats">
     <div class="prev">
@@ -154,6 +167,7 @@ plt.show()
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.15/fancybox/fancybox.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/dockerfile.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.js"></script>
 
     <script>
         addEventListener("DOMContentLoaded", function() {
