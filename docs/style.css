@@ -71,11 +71,12 @@ pre
 
 pre code
 {
-    padding: 0.5em;
+    padding: 1em;
     border-radius: 0;
     display: block;
     overflow-x: auto;
     color: #333;
+    background: white;
 }
 
 .jupyter-outputs pre
