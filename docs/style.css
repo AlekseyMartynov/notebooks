@@ -89,6 +89,11 @@ pre code
     padding-top: 0;
 }
 
+.jupyter-outputs > div
+{
+    overflow-x: auto;
+}
+
 .hasfloats:after
 {
     content: "";
