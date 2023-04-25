@@ -66,7 +66,10 @@ namespace Blog {
                     } else if(data.TryGetProperty("image/png", out var png)) {
                         AppendInlineImage(builder, "image/png;base64", png.GetString());
                     } else if(data.TryGetProperty("text/html", out var html)) {
-                        builder.AppendLine(String.Concat(html.EnumerateArray()));
+                        builder.AppendLine(String.Concat(html.EnumerateArray()
+                            .Select(i => i.GetString())
+                            .Where(i => !String.IsNullOrWhiteSpace(i))
+                        ));
                     } else if(data.TryGetProperty("text/plain", out var text)) {
                         AppendCode(builder, text.EnumerateArray(), "plaintext");
                     } else {
