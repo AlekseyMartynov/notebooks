@@ -109,6 +109,7 @@ namespace Blog {
             doc.LoadHtml(!String.IsNullOrEmpty(md) ? Markdown.ToHtml(md, _pipeline) : "");
 
             var node = doc.DocumentNode;
+            DropStyleElements(node);
             Texturize(node);
             RestoreMath(node, math);
             SetImageDimensions(node);
@@ -209,6 +210,12 @@ namespace Blog {
                 text = text.Substring(0, text.Length - 1);
 
             return text + "…";
+        }
+
+        static void DropStyleElements(HtmlNode node) {
+            var list = node.Descendants("style").ToList();
+            foreach(var i in list)
+                i.Remove();
         }
 
         static void Texturize(HtmlNode node) {
