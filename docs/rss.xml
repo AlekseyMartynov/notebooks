@@ -6,12 +6,22 @@
     <atom:link href="https://alekseymartynov.github.io/notebooks/rss.xml" rel="self" type="application/rss+xml" />
     <description>Misc tech notes</description>
     <creativeCommons:license>https://creativecommons.org/licenses/by/3.0/</creativeCommons:license>
-    <pubDate>19 Apr 2023 00:00:00 +0300</pubDate>
+    <pubDate>23 Apr 2023 00:00:00 +0300</pubDate>
     <image>
       <title>AM’s Notebooks</title>
       <link>https://alekseymartynov.github.io/notebooks</link>
       <url>https://github.com/AlekseyMartynov.png</url>
     </image>
+    <item>
+      <guid isPermaLink="true">https://alekseymartynov.github.io/notebooks/moex-liquidity/</guid>
+      <link>https://alekseymartynov.github.io/notebooks/moex-liquidity/</link>
+      <pubDate>23 Apr 2023 00:00:00 +0300</pubDate>
+      <title>Ликвидность акций на Московской бирже</title>
+      <description><![CDATA[<p>В качестве упражнения на освоение <a href="https://ru.wikipedia.org/wiki/Pandas">pandas</a> я решил изучить ликвидность акций РФ.</p>
+<p>Применительно к фондовому рынку, ликвидность означает, что бесстрашный обладатель миллионов может в любой рабочий день купить и продать ценную бумагу, быстро и на нужный объём по рыночной цене, не дожидаясь часами контрагента в очереди заявок.</p>
+<p>Ликвидность можно оценить ретроспективно, посмотрев на объёмы торгов за некоторый период. Данные эти есть в открытом доступе на ISS, <a href="https://www.moex.com/a2193">информационно-статистическом сервере</a> Московской биржи.</p>
+<p><a href="https://alekseymartynov.github.io/notebooks/moex-liquidity/">Читать на сайте…</a></p>]]></description>
+    </item>
     <item>
       <guid isPermaLink="true">https://alekseymartynov.github.io/notebooks/log-return/</guid>
       <link>https://alekseymartynov.github.io/notebooks/log-return/</link>
